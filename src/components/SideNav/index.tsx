@@ -21,7 +21,7 @@ const SideNav = ({ }) => {
   return (
     <div className='no-scrollbar hidden sm:flex flex-col justify-between grad-to-bottom text-black max-h-screen overflow-hidden h-screen min-w-[240px] w-60 pb-4'>
         <div>
-            <div className='w-full flex flex-col items-center text-center gap-5 border-b border-white/10'>
+            <div className='w-full flex flex-col items-center text-center gap-5 border-b border-white/10 pt-4'>
                 <Link href={"/"}>
                     <Image src={Logo} className='w-full h-12 md:h-12 bg-white' alt='' />
                 </Link>
@@ -32,7 +32,7 @@ const SideNav = ({ }) => {
                     </div>
                 </div> */}
             </div>
-            <div className='flex flex-col gap-2 pt-4 pb-2 text-black/70'>
+            <div className='flex flex-col gap-2 pb-2 text-black/70 pt-12'>
                 <Link className={`py-2.5 pl-6 text-sm flex items-center gap-2 ${(pathname === '/admin') && 'text-black'}`} href="/admin">
                     {/* <span className='w-4 h-4 bg-white flex justify-center items-center rounded border'>
                         <MdTrendingUp color='#000000' size={"0.6rem"} />

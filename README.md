@@ -37,11 +37,11 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 ### MVP
 
-- [ ] Set up Table for user and Admin
+- [ ] Auth Pages
+- [ ] Set up Table for users and Admins
 - [ ] Face recognition
 - [ ] Connect to API's
 - [ ] Authentication flow
-- [ ] 
 
 ## Analytics Page Contents
 

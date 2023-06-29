@@ -7,6 +7,25 @@ import Image from 'next/image'
 
 const FaceId = () => {
   const [active, setActive] = React.useState<'student' | 'staff'>('student')
+
+  async function getMedia() {
+    let stream = null;
+  
+    try {
+      stream = await navigator.mediaDevices.getUserMedia({
+        video: true,
+        audio: false
+      });
+      /* use the stream */
+
+      console.log({stream})
+    } catch (err) {
+      /* handle the error */
+    }
+  }
+
+  
+
   return (
     <div className='md:pl-24 py-4'>
       <div className="flex justify-center gap-16 items-center mb-12 text-lg">
@@ -24,6 +43,10 @@ const FaceId = () => {
         <button type='submit' className='mt-12 flex items-center justify-center gap-2 bg-primary p-4 pl-5 pr-6 text-sm text-white rounded-md w-full font-bold'>
           Scan
         </button>
+        <input  type="file" name="image" accept="image/*" capture="environment" />
+        <div className="flex flex-col gap-6 text-sm" onClick={getMedia}>
+          getMedia
+        </div>
       </form>
     </div>
   )

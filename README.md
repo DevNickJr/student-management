@@ -37,13 +37,14 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 ### MVP
 
-- [ ] Auth Pages
-- [ ] Set up Table for users and Admins
+- [*] Auth Pages
+- [ ] Set up Table for users and Admins (tanstack table)
 - [ ] Face recognition
 - [ ] Connect to API's
 - [ ] Authentication flow
+- [ ] SEO meta's
 
-## Analytics Page Contents
+<!-- ## Analytics Page Contents
 
 - Submission Count
-- Courses Registered
+- Courses Registered -->

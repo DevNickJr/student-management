@@ -42,7 +42,7 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 - [ ] Face recognition
 - [ ] Connect to API's
 - [ ] Authentication flow
-- [ ] SEO meta's
+- [ ] SEO metas
 
 <!-- ## Analytics Page Contents
 

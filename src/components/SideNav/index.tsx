@@ -11,6 +11,8 @@ import { FaAward } from 'react-icons/fa'
 import { AiTwotoneGold, AiOutlineHome } from 'react-icons/ai'
 import Logo from "@/assets/logo.svg"
 import Image from 'next/image'
+import { useSession, signIn, signOut } from "next-auth/react"
+
 // import { useSession, signIn, signOut } from "next-auth/react"
 
 
@@ -50,7 +52,7 @@ const SideNav = ({ }) => {
                 </Link>
             </div>
         </div>
-        <div onClick={() => ''} className={`py-2.5 pl-6 text-sm flex items-center gap-2 cursor-pointer`}>
+        <div onClick={() => signOut()} className={`py-2.5 pl-6 text-sm flex items-center gap-2 cursor-pointer`}>
             <MdLogout size={"1.3rem"} />
             Logout
         </div>

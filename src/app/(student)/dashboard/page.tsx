@@ -1,7 +1,12 @@
+'use client'
 import React from 'react'
 import { MdAdd } from 'react-icons/md'
+import { useSession } from 'next-auth/react'
 
 const StudentHome = () => {
+  const session = useSession()
+
+  console.log("dash session", session)
   return (
     <div className='p-4 overflow-y-auto'>
       <div className="flex items-center gap-4 justify-between mb-12">

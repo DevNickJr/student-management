@@ -1,6 +1,8 @@
+'use client'
 import React from 'react'
 import SideNav from '@/components/SideNav'
 import Head from '@/components/Head'
+import AuthHOC from '@/HOC/AuthHOC'
 
 const StudentLayout = ({ children }: { children: React.ReactNode }) => {
   
@@ -16,4 +18,4 @@ const StudentLayout = ({ children }: { children: React.ReactNode }) => {
   )
 }
 
-export default StudentLayout
+export default AuthHOC(StudentLayout)

@@ -1,7 +1,7 @@
 import NextAuthSesssionProvider from '@/providers/SesssionProvider';
+import QueryProvider from '@/providers/QueryProvider';
 import './globals.css'
 import { Inter } from 'next/font/google'
-import { ToastContainer } from 'react-toastify';
 
 
 const inter = Inter({ subsets: ['latin'] })
@@ -20,8 +20,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
       <NextAuthSesssionProvider>
-        {children}
-        <ToastContainer />
+        <QueryProvider>
+          {children}
+        </QueryProvider>
       </NextAuthSesssionProvider>
       </body>
     </html>

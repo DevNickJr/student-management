@@ -2,12 +2,16 @@ export interface IUserLogin {
     email: string
     password: string
 }
+
 export interface IUserRegister {
     email: string
     password: string
     confirm_password: string
-    username: string
-    access_code: string
+    phone: string
+    first_name: string      
+    last_name: string        
+    level: string      
+    matric_no: string  
 }
 
 export interface IReducerAction<T> {
@@ -21,8 +25,6 @@ export interface ILoginReducerAction extends IReducerAction<"email" | "password"
     payload: string
 }
 
-export interface IRegistereducerAction extends IReducerAction<"email" | "password" | "confirm_password" | "username" | "access_code"> {
+export interface IRegistereducerAction extends IReducerAction<"email" | "password" | "confirm_password" | "phone" | "first_name" | "last_name" | "level" | "matric_no"> {
     payload: string
 }
-
-

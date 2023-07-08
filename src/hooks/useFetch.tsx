@@ -22,7 +22,7 @@ const useFetch = ({ api, param, key, onSuccess, ...rest }: any) => {
             // console.log("data", data, "onSuccess", onSuccess, "isSuccess", isSuccess)
             onSuccess(data)
         }
-    }, [data])
+    }, [data, isSuccess, onSuccess])
 
     return { data, error, isLoading, isFetching, remove, refetch, fetchStatus }
 }

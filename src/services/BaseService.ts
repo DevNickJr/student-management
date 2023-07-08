@@ -4,9 +4,10 @@ import appConfig from "@/configs/app.config";
 
 const BaseService = axios.create({
     baseURL: appConfig.apiPrefix,
-    timeout: 30000,
+    timeout: 50000,
     headers: {
-      'Content-Type': 'application/json', 
+      'Content-Type': 'application/json',
+      'Cache-Control': 'no-cache',
     },
 })
 
@@ -33,3 +34,18 @@ BaseService.interceptors.response.use(function (response) {
 
 
 export default BaseService
+
+      // 'Connection': 'Accept-Encoding',
+      // 'Accept-Encoding': 'gzip, deflate, br',
+      // 'Accept-Language': 'en-US,en;q=0.9',
+      // 'Access-Control-Allow-Origin': '*',
+      // 'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+      // 'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Auth-Token',
+      // 'Access-Control-Allow-Credentials': 'true',
+      // 'Access-Control-Max-Age': '86400',
+      // 'Access-Control-Expose-Headers': 'X-Auth-Token',
+      // 'Host': 'eduverse-api.azurewebsites.net',
+      // 'Origin': 'https://eduverse-api.azurewebsites.net',
+      // 'Referer': 'https://eduverse-api.azurewebsites.net/',
+      // 'Content-Length': '0' 
+      // 'Accept': 'application/json',

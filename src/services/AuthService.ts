@@ -1,57 +1,23 @@
 import ApiAdapter from "./ApiService"
+import { IUserRegister, IUserLogin } from '@/interfaces'
+import BaseService from "./BaseService"
+import { User } from "next-auth"
+
 
 const servicePrefix = "/auth"
 
-export const apiRegister =  (data: any) => {
+export const apiRegister = (data: IUserRegister) => {
+    return BaseService.post(`${servicePrefix}/register/`, data)
+}
+
+export const apiRegisterFace = (data: IUserRegister) => {
     return ApiAdapter.fetchData({
-        url:  "/add_user_api.php",
+        url:  `${servicePrefix}/face/register/`,
         method: "post",
         data
     })
 }
 
-export const apiLogin =  (data: any) => {
-    return ApiAdapter.fetchData({
-        url: "/user_login_api.php",
-        method: "post",
-        data
-    })
+export const apiLogin =  (data: IUserLogin) => {
+    return BaseService.post<User>(`${servicePrefix}/login/`, data)
 }
-
-export const apiResetPassword =  (data: any) => {
-    return ApiAdapter.fetchData({
-        url: "/reset_user_password_api.php",
-        method: "post",
-        data
-    })
-}
-export const apiCheckPassword =  ({ user_string, p_string }: any) => {
-    // console.log("user_string", user_string, "p_string", p_string)
-    return ApiAdapter.fetchData({
-        url:`/check_user_password_api.php?user_string=${user_string}&p_string=${p_string}`,
-        method: "get",
-    })
-}
-
-export const apiForgotEmail =  (email: any) => {
-    return ApiAdapter.fetchData({
-        url: `/forgot_email_api.php?string=${email}`,
-        method: "get",
-    })
-}
-
-export const apiForgotPasswordTemp =  (data: any) => {
-    return ApiAdapter.fetchData({
-        url: `forgot_email_api.php`,
-        method: "post",
-        data 
-    })
-}
-
-export const apiTest =  () => {
-    return ApiAdapter.fetchData({
-        url: "/fetch_approved_businesses_api.php",
-        method: "get",
-    })
-}
-

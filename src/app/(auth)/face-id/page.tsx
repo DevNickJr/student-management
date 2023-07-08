@@ -7,6 +7,10 @@ import Image from 'next/image'
 
 const FaceId = () => {
   const [active, setActive] = React.useState<'student' | 'staff'>('student')
+  const [modalOpen, setModalOpen] = React.useState(false)
+  const [stream, setStream] = React.useState(null)
+  const videoRef = React.useRef<any>(null)
+  const canvasRef = React.useRef<any>(null)
 
   async function getMedia() {
     let stream = null;
@@ -16,13 +20,35 @@ const FaceId = () => {
         video: true,
         audio: false
       });
+      setModalOpen(true)
       /* use the stream */
+      if (videoRef.current) {
+        videoRef.current.srcObject = stream;
+        videoRef.current.play();
+        videoRef.current.setAttribute("playsinline", "true"); /* required to tell iOS safari we don't want fullscreen */
+        videoRef.current.setAttribute("autoPlay", "true"); /* required to tell iOS safari we don't want fullscreen */
+      }
 
       console.log({stream})
     } catch (err) {
       /* handle the error */
     }
   }
+
+  const capture = React.useCallback(() => {
+    if (videoRef.current) {
+      console.log('vidref', videoRef.current.srcObject)
+      const canvas = canvasRef.current;
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
+
+      const data = canvas.toDataURL('image/png');
+      console.log({data})
+      console.log('vidref', videoRef.current.srcObject)
+      // videoRef.current.srcObject.getVideoTracks().forEach((track: any) => track.stop());
+    }
+  }, [videoRef, canvasRef]);
 
   
 
@@ -43,11 +69,17 @@ const FaceId = () => {
         <button type='submit' className='mt-12 flex items-center justify-center gap-2 bg-primary p-4 pl-5 pr-6 text-sm text-white rounded-md w-full font-bold'>
           Scan
         </button>
-        <input  type="file" name="image" accept="image/*" capture="environment" />
+        {/* <input  type="file" name="image" accept="image/*" capture="environment" /> */}
         <div className="flex flex-col gap-6 text-sm" onClick={getMedia}>
           getMedia
         </div>
       </form>
+      {modalOpen &&
+       <div className='fixed top-0 bottom-0 w-full h-full bg-black/30 flex justify-center items-center py-12 flex-col gap-4'>
+        <video width={640} height={480} ref={videoRef} id="player" controls autoPlay className=''></video>
+        <button onClick={capture} id="capture" className='border-red-200 border-2 bg-pink-200 p-4'>Capture</button>
+        <canvas width={640} height={480} ref={canvasRef} id="canvas"></canvas>
+      </div>}
     </div>
   )
 }

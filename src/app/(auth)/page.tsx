@@ -5,6 +5,8 @@ import { toast } from 'react-toastify'
 import { IUserLogin, ILoginReducerAction } from '@/interfaces'
 import { useSession, signIn, signOut } from "next-auth/react"
 import { useRouter } from 'next/navigation'
+import usePost from '@/hooks/usePost'
+import { apiLogin } from '@/services/AuthService'
 
 const initialState: IUserLogin = {
   email: '',
@@ -19,6 +21,21 @@ const Login = () => {
     return { ...state, [action.type]: action.payload }
 }, initialState)
 
+const { mutate } = usePost<IUserLogin, any>(
+  apiLogin,
+  {
+    onSuccess: () => {
+        // queryClient.invalidateQueries('user')
+        toast.success("Logged in Successfully")
+        router.push('/dashboard')
+    },
+    onError: (error: any) => {
+        toast.error(error?.message || "An error occured")
+    }
+  }
+)
+
+
   const router = useRouter()
 
   const handleLogin = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
@@ -28,8 +45,8 @@ const Login = () => {
       console.log("user", user )
         const res = await signIn('credentials', {
             ...user,
-            redirect: false,
-            // callbackUrl: `${window.location.origin}/dashboard`,
+            redirect: true,
+            callbackUrl: `${window.location.origin}/dashboard`,
             onUnauthenticated() {
                 toast.error("Invalid Credentials")
             }

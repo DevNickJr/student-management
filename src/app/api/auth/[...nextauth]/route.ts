@@ -1,30 +1,38 @@
-import NextAuth from "next-auth";
+import NextAuth, { Awaitable } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { NextApiRequest, NextApiResponse } from 'next';
+import { apiLogin } from '@/services/AuthService'
+
 
 export const authOptions = {
   // Configure one or more authentication providers
   secret: process.env.AUTH_SECRET || "my-secret",
   pages: {
     signIn: "/",
+    error: '/',
     // signOut: '/auth/signout',
     // error: '/', // Error code passed in query string as ?error=
     // verifyRequest: '/auth/verify-request', // (used for check email message)
     // newUser: '/auth/new-user' // New users will be directed here on first sign in (leave the property out if not of interest)
   },
   callbacks: {
-    async jwt({ token, account }: any) {
+    async jwt({ token, account, user }: any) {
         // Persist the OAuth access_token to the token right after signin
-        // console.log({ account, token })
+        // console.log({ userSession: user })
         if (account) {
           token.accessToken = account.access_token
+        }
+        if (user) {
+          token.user = user
         }
         return token
       },
     async session({ session, token, user }: any) {
       // Send properties to the client, like an access_token from a provider.
-    //   console.log({ token, session, user })
-      session.accessToken = token.accessToken
+      //   console.log({ token, session, user })
+      // console.log('session: ', token)
+      session.user = token.user
+      session.accessToken = token.user.token.accessToken
       return session
     },    
     // async signIn({ user, account, profile, email, credentials }: any) {
@@ -58,27 +66,29 @@ export const authOptions = {
 
           try {
 
-            const response = await fetch(`/login`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(credentials)
+
+            if (!credentials || !credentials.email || !credentials.password) {
+                return null;
+            }
+
+            const res = await apiLogin({
+                email: credentials.email,
+                password: credentials.password
             })
-  
-            const user = response.json();
+
+            const user = res.data
+
+            // console.log({ user })
 
             if (!user) {
-              return null;
+              throw new Error('User not found');
           }
-  
-            return user;
+
+          return user;
            
-          } catch (error) {
+          } catch (error: any) {
               console.log('error')
-              return {
-                id: 1,
-              };
+              throw new Error(error?.message || 'An error occured');
           }
         
           

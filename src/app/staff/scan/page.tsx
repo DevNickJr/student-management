@@ -1,10 +1,60 @@
+'use client'
 import React from 'react'
 import { MdAdd } from 'react-icons/md'
 import ScanImage from '@/assets/scan.svg'
 import Image from 'next/image'
+import { IVerifiedFace } from '@/interfaces'
+import { apiVerifyFace } from '@/services/AuthService'
+import usePost from '@/hooks/usePost'
+import { toast } from 'react-toastify'
+import Webcam from "react-webcam";
+// import { useRouter } from 'next/navigation'
+
+const initialState: IVerifiedFace = {
+  level: '200',
+  image: '',
+}
 
 
-const StaffHome = () => {
+const StaffScan = () => {
+  const [modalOpen, setModalOpen] = React.useState(false)
+  const webcamRef = React.useRef<Webcam>(null);
+  const [imgSrc, setImgSrc] = React.useState<string>('');
+  const verifyFaceMutation = usePost(apiVerifyFace, {
+    requireAuth: true,
+    onSuccess: (data) => {
+      toast.success(data.message || 'Face verified successfully')
+      // router.push('/staff/scan/verify')
+    }
+  })
+
+  const capture = React.useCallback(async () => {
+    if (!webcamRef.current) return;
+    const imageSrc = webcamRef.current.getScreenshot();
+    if (!imageSrc) return;
+    // const blob: Blob = await fetch(imageSrc).then(r => r.blob())
+    // // const blob = await base64Response.blob();
+    // const imgs = new File([blob], 'face2', { type: 'image/png' });
+    // // const blob: Blob = imageSrc.blob()
+    // const file = new File([imageSrc], 'filename.png', { type: 'image/png' })
+    // console.log('image', imageSrc, file)
+    setImgSrc(imageSrc);
+    setModalOpen(false)
+
+    const blob: Blob = await fetch(imageSrc).then(r => r.blob())
+
+    const file = new File([blob], 'face2', { type: 'image/png' });
+
+    const formData = new FormData()
+    formData.append('level', '200')
+    formData.append('image', file)
+
+    console.log('formdata', file)
+
+    verifyFaceMutation.mutate(formData)
+  }, [webcamRef, verifyFaceMutation]);
+
+
   return (
     <div className='p-4 overflow-y-auto'>
       <div className="flex items-center gap-4 justify-between mb-12">
@@ -23,9 +73,27 @@ const StaffHome = () => {
             Scan Students
           </h3>
           <div className="flex justify-center items-center h-64 md:h-96 border-2 border-primary border-dashed rounded-md py-10">
-            <Image src={ScanImage} alt='Scan' className='w-full h-full' />
+            {/* <Image src={ScanImage} alt='Scan' className='w-full h-full' /> */}
+            <>
+            {
+              !imgSrc ? (
+                <Webcam
+                    audio={false}
+                    ref={webcamRef}
+                    screenshotFormat="image/jpeg"
+                />
+              )
+            :
+                <Image
+                    src={imgSrc}
+                    width={640}
+                    height={480}
+                    alt="Picture of the user"
+                />
+            } 
+          </>
           </div>
-          <button type='submit' className='mx-auto mt-12 flex items-center justify-center gap-2 bg-primary p-2 pl-5 pr-6 text-sm text-white'>
+          <button onClick={capture} className='mx-auto mt-12 flex items-center justify-center gap-2 bg-primary p-2 pl-5 pr-6 text-sm text-white'>
             Click to Scan
           </button>
         </div>
@@ -47,4 +115,4 @@ const StaffHome = () => {
   )
 }
 
-export default StaffHome
+export default StaffScan

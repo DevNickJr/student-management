@@ -14,6 +14,16 @@ export interface IUserRegister {
     matric_no: string  
 }
 
+export interface IRegisterFace {
+    email: string
+    image: string
+}
+
+export interface IVerifiedFace {
+    level: string
+    image: string
+}
+
 export interface IProfile {
     email: string
     phone: string

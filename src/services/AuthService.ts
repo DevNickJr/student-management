@@ -1,5 +1,5 @@
 import ApiAdapter from "./ApiService"
-import { IUserRegister, IUserLogin, IUser, IProfile, IPassword } from '@/interfaces'
+import { IUserRegister, IUserLogin, IUser, IProfile, IPassword, IRegisterFace, IVerifiedFace } from '@/interfaces'
 import BaseService from "./BaseService"
 import { User } from "next-auth"
 
@@ -15,6 +15,15 @@ export const apiRegister = (data: IUserRegister) => {
     return BaseService.post(`${servicePrefix}/register/`, data)
 }
 
+export const apiRegisterFace = (data: FormData) => {
+    
+    return BaseService.post(`${servicePrefix}/face/register/`, data, {
+        headers: {
+            "Content-Type": "multipart/form-data"
+        }
+    })
+}
+
 export const apiLogin =  (data: IUserLogin) => {
     return BaseService.post<User>(`${servicePrefix}/login/`, data)
 }
@@ -28,6 +37,18 @@ export const apiUpdateUser =  (data: IProfile, token?: string) => {
     Object.keys(data).forEach(key => formData.append(key, data[key as keyof IProfile]))
 
     return BaseService.patch<IUser>(`${servicePrefix}/user/`, formData, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data"
+        }
+    })
+}
+
+export const apiVerifyFace =  (data: FormData, token?: string) => {
+    // const formData = new FormData()
+    // Object.keys(data).forEach(key => formData.append(key, data[key as keyof FormData]))
+
+    return BaseService.post(`${servicePrefix}/face/verify/`, data, {
         headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "multipart/form-data"

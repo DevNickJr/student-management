@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation'
 import { MdOutlineDashboardCustomize, MdLogout, MdOutlineFeedback } from 'react-icons/md'
 import { RiTeamLine, RiQuestionnaireLine } from 'react-icons/ri'
 import { GiCrownedSkull } from 'react-icons/gi'
-import { TbSitemap } from 'react-icons/tb'
+import { BsFillPersonFill } from 'react-icons/bs'
 import { TiNews } from 'react-icons/ti'
 import { FaAward } from 'react-icons/fa'
 import { AiTwotoneGold, AiOutlineHome } from 'react-icons/ai'
@@ -27,26 +27,17 @@ const SideNav = ({ }) => {
                 <Link href={"/"}>
                     <Image src={Logo} className='w-full h-12 md:h-12 bg-white' alt='' />
                 </Link>
-                {/* <div className="flex items-center text-xs gap-2">
-                    <div className="flex flex-col">
-                        <span className='font-bold text-sm'>Administrator</span>
-                        <span className='text-black/80 text-[10px] font-bold'>admin@gmail.com</span>
-                    </div>
-                </div> */}
             </div>
             <div className='flex flex-col gap-2 pb-2 text-black/70 pt-12'>
-                <Link className={`py-2.5 pl-6 text-sm flex items-center gap-2 ${(pathname === '/admin') && 'text-black'}`} href="/admin">
-                    {/* <span className='w-4 h-4 bg-white flex justify-center items-center rounded border'>
-                        <MdTrendingUp color='#000000' size={"0.6rem"} />
-                    </span>  */}
+                <Link className={`py-2.5 pl-6 text-sm flex items-center gap-2 ${(pathname === '/admin') && 'text-black'}`} href="/dashboard">
                     <MdOutlineDashboardCustomize size={"1.3rem"} />
                     Dashboard
                 </Link>
-                <Link className={`py-2.5 pl-6 text-sm flex items-center gap-2 ${pathname?.includes("winners") && 'text-black'}`} href={"/admin/winners"}>
+                <Link className={`py-2.5 pl-6 text-sm flex items-center gap-2 ${pathname?.includes("winners") && 'text-black'}`} href={"/courses"}>
                     <GiCrownedSkull size={"1.3rem"} />
                     Courses
                 </Link>
-                <Link className={`py-2.5 pl-6 text-sm flex items-center gap-2 ${pathname?.includes("advisory") && 'text-black'}`} href={"/admin/advisory"}>
+                <Link className={`py-2.5 pl-6 text-sm flex items-center gap-2 ${pathname?.includes("advisory") && 'text-black'}`} href={"/profile"}>
                     <RiTeamLine size={"1.3rem"} />
                     Settings
                 </Link>

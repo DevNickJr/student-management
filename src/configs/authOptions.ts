@@ -1,4 +1,4 @@
-import { NextAuthOptions  } from "next-auth";
+import { NextAuthOptions, User } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { apiLogin } from '@/services/AuthService'
 
@@ -17,31 +17,24 @@ export const authOptions: NextAuthOptions = {
     // verifyRequest: '/auth/verify-request', // (used for check email message)
     // newUser: '/auth/new-user' // New users will be directed here on first sign in (leave the property out if not of interest)
   },
-//   callbacks: {
-//     async jwt({ token, account, user }: any) {
-//         // Persist the OAuth access_token to the token right after signin
-//         // console.log({ userSession: user })
-//         if (account) {
-//           token.accessToken = account.access_token
-//         }
-//         if (user) {
-//           token.user = user
-//         }
-//         return token
-//       },
-//     async session({ session, token, user }: any) {
-//       // Send properties to the client, like an access_token from a provider.
-//       //   console.log({ token, session, user })
-//       // console.log('session: ', token)
-//       session.user = token.user
-//       session.accessToken = token.user.token.accessToken
-//       return session
-//     },    
-//     // async signIn({ user, account, profile, email, credentials }: any) {
-//     //     console.log('user   isdsokd:  ', { user })
-//     //     return {...user, new: true}
-//     // }
-//   },
+  callbacks: {
+    async jwt({ token, account, user }: any) {
+        // Persist the OAuth access_token to the token right after signin
+        // console.log({ userSession: user })
+        if (user) {
+          token.user = user
+        }
+        return token
+      },
+    async session({ session, token, user }: any) {
+      // Send properties to the client, like an access_token from a provider.
+      //   console.log({ token, session, user })
+      // console.log('session: ', token)
+      session.user = token.user
+      session.accessToken = token.user.token.accessToken
+      return session
+    },    
+  },
   providers: [
     CredentialsProvider({
       // The name to display on the sign in form (e.g. 'Sign in with...')
@@ -56,11 +49,42 @@ export const authOptions: NextAuthOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials, req) {
-        // console.log('credentials: ', credentials)
-        // console.log('req: ', req)
-        // Add logic here to look up the user from the credentials supplied
-        const user = { id: "1", name: "Admin", email: "admin@admin.com" };
-        return user;
+        // console.log({ credentials, req })
+        // You need to provide your own logic here that takes the credentials
+        // submitted and returns either a object representing a user or value
+        // that is false/null if the credentials are invalid.
+        // e.g. return { id: 1, name: 'J Smith', email: 'jsmith@example.com' }
+        // You can also use the `req` object to obtain additional parameters
+        // (i.e., the request IP address)
+        
+        //   console.log({ credentials, req })
+
+          try {
+
+
+            if (!credentials || !credentials.email || !credentials.password) {
+                return null;
+            }
+
+            const res = await apiLogin({
+                email: credentials.email,
+                password: credentials.password
+            })
+
+            const user: User = res.data
+
+            // console.log({ user })
+
+            if (!user) {
+              throw new Error('User not found');
+          }
+
+          return user;
+           
+          } catch (error: any) {
+              // console.log('error')
+              throw new Error(error?.message || 'An error occured');
+          }
       },
     }),
   ],

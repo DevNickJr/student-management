@@ -1,5 +1,5 @@
 import ApiAdapter from "./ApiService"
-import { IUserRegister, IUserLogin, IUser, IProfile, IPassword, IRegisterFace, IVerifiedFace } from '@/interfaces'
+import { IUserRegister, IUserLogin, IUser, IProfile, IPassword, IRegisterFace, IVerifiedFace, IForgotPassword, IChangePassword } from '@/interfaces'
 import BaseService from "./BaseService"
 import { User } from "next-auth"
 
@@ -26,6 +26,18 @@ export const apiRegisterFace = (data: FormData) => {
 
 export const apiLogin =  (data: IUserLogin) => {
     return BaseService.post<User>(`${servicePrefix}/login/`, data)
+}
+
+export const apiRefreshToken =  (data: { refresh: string }) => {
+    return BaseService.post(`${servicePrefix}/token/refresh/`, data)
+}
+
+export const apiForgotPassword =  (data: IForgotPassword) => {
+    return BaseService.post(`${servicePrefix}/password/reset/`, data)
+}
+
+export const apiChangePassword =  (data: IChangePassword) => {
+    return BaseService.patch(`${servicePrefix}/password/reset/complete/`, data)
 }
 
 export const apiGetUser =  (token: string) => {

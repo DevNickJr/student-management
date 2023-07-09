@@ -3,6 +3,18 @@ export interface IUserLogin {
     password: string
 }
 
+export interface IForgotPassword { 
+    email: string, 
+    redirect_url: string 
+}
+
+export interface IChangePassword { 
+    password: string,
+    confirm_password: string, 
+    token: string, 
+    uidb64: 'MTI' 
+}
+
 export interface IUserRegister {
     email: string
     password: string

@@ -14,6 +14,31 @@ export interface IUserRegister {
     matric_no: string  
 }
 
+export interface IProfile {
+    email: string
+    phone: string
+    first_name: string      
+    last_name: string        
+    level: string      
+    matric_no: string  
+  }
+
+export interface IUser extends IUserRegister {
+    status: string
+    middle_name: string | null,
+    profile_picture_url: string,
+    is_active: boolean | null,
+    is_verified: boolean | null,
+    is_staff: boolean | null
+}
+
+export interface IPassword {
+    old_password: string
+    new_password: string
+    confirm_password: string
+  }
+  
+
 export interface IReducerAction<T> {
     type: T;
     payload?: string | { [key: string]: string };

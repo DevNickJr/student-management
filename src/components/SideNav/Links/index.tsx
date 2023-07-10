@@ -1,7 +1,7 @@
 'use client'
 import Link from 'next/link'
 import React from 'react'
-import Button  from '../Button'
+import Button  from '../../Button'
 // import { signIn, signOut, useSession } from 'next-auth/react'
 import { MdLogout, MdOutlineClose } from 'react-icons/md'
 import { BiMenu } from 'react-icons/bi'

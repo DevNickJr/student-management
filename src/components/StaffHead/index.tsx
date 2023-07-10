@@ -1,10 +1,10 @@
 'use client'
 import React from 'react'
 import { BiMenu } from 'react-icons/bi'
-import Links from '../SideNav/Links'
+import Links from '../StaffNav/Links'
 import { RxCaretDown } from 'react-icons/rx'
 
-const Head = () => {
+const StaffHead = () => {
   const [isOpen, setIsOpen] = React.useState(false)
 
 
@@ -32,4 +32,4 @@ const Head = () => {
   )
 }
 
-export default Head
+export default StaffHead

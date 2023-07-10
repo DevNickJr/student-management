@@ -1,43 +1,34 @@
+'use client'
 import Link from 'next/link'
 import React from 'react'
 import Button  from '../Button'
 // import { signIn, signOut, useSession } from 'next-auth/react'
-import { MdLogout } from 'react-icons/md'
+import { MdLogout, MdOutlineClose } from 'react-icons/md'
+import { BiMenu } from 'react-icons/bi'
+import { useSession, signIn, signOut } from "next-auth/react"
 
 
-const Links = ({ isOpen }: { isOpen: boolean }) => {
+
+const Links = ({ isOpen, setIsOpen }: { isOpen: boolean, setIsOpen: React.Dispatch<React.SetStateAction<boolean>> }) => {
 
   return (
-    <div className={`md:hidden shadow fixed top-0 right-0 w-5/6 min-h-screen h-screen bg-white text-black px-4  py-2 md:px-10 z-30 ${isOpen ? "translate-x-0" : "translate-x-full"} transition-all duration-300`}>
-          <nav className="md:hidden flex flex-col h-full justify-between gap-16 p-4 pt-20 px-8 mb-8">
-            <ul className='flex flex-col text-dark-light gap-7 md:gap-4 lg:gap-7 font-medium'>
-              <li><Link href="/admin" className={`pb-1.5 px-1 font-medium`}>Dashboard</Link></li>
-              <li><Link href="/admin/winners" className={`pb-1.5 px-1 font-medium`}>Winners</Link></li>
-              <li><Link href="/admin/ambassadors" className={`pb-1.5 px-1 font-medium`}>Ambassadors</Link></li>
-              <li><Link href="/admin/advisory" className={`pb-1.5 px-1 font-medium`}>Advisory Board</Link></li>
-              <li><Link href="/admin/cms" className={`pb-1.5 px-1 font-medium`}>Home Content</Link></li>
-              <li><Link href="/admin/about" className={`pb-1.5 px-1 font-medium`}>About</Link></li>
-              <li><Link href="/admin/news" className={`pb-1.5 px-1 font-medium`}>News & Updates</Link></li>
-              <li><Link href="/admin/scholarships" className={`pb-1.5 px-1 font-medium`}>Available Scholarships</Link></li>
-              <li><Link href="/admin/feedbacks" className={`pb-1.5 px-1 font-medium`}>Feedbacks</Link></li>
-              <li><Link href="/admin/faqs" className={`pb-1.5 px-1 font-medium`}>FAQs</Link></li>
-              {/* {!user ? 
-              <li><Link href="/login" className={`${pathname==="/login" && "text-green"} pb-1.5 px-1 font-medium`}>Login</Link></li>
-                :
-                <li>
-                  <div onClick={() => dispatch({type: "LOGOUT"})} className='px-1 font-medium cursor-pointer'>
-                    Logout
-                  </div>
-                </li>
-              } */}
-            </ul>
-
-          <div onClick={() => ''} className={`w-fit py-2 pb-2.5 px-6 flex items-center gap-2 text-xs font-medium grad-to-right text-white rounded-full mb-12`}>
-              <MdLogout size={"1.3rem"} />
-              Logout
-          </div>
-          </nav>
+    <div className={`md:hidden shadow fixed top-0 left-0 w-5/6 min-h-screen h-screen bg-white text-black px-4  py-2 md:px-10 z-30 text-sm ${isOpen ? "translate-x-0" : "-translate-x-full"} transition-all duration-300`}>
+       { isOpen &&
+              <MdOutlineClose onClick={() => setIsOpen(false)} className={`cursor-pointer text-3xl md:hidden z-50 text-gray-dark absolute top-6 right-6 `} /> 
+              // : <BiMenu onClick={() => setIsOpen(true)} className='cursor-pointer text-3xl md:hidden relative z-50 text-gray-dark' />
+            }
+      <nav className="md:hidden flex flex-col h-full justify-between gap-16 p-4 pt-24">
+        <ul className='flex flex-col text-dark-light gap-7 md:gap-4 lg:gap-7 font-medium'>
+          <li><Link href="/dashboard" className={`pb-1.5 px-1 font-medium`}>Dashboard</Link></li>
+          <li><Link href="/courses" className={`pb-1.5 px-1 font-medium`}>Courses</Link></li>
+          <li><Link href="/settings" className={`pb-1.5 px-1 font-medium`}>Settings</Link></li>
+        </ul>
+        <div onClick={() => signOut()} className={`w-fit py-2 pb-2.5 flex items-center gap-2 text-xs font-medium rounded-full`}>
+            <MdLogout size={"1.3rem"} />
+            Logout
         </div>
+      </nav>
+    </div>
   )
 }
 

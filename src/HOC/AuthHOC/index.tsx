@@ -2,6 +2,8 @@
 import React, { ReactNode } from "react";
 import { useRouter } from "next/navigation";
 import { useSession, signIn, signOut } from "next-auth/react"
+import { Blocks } from 'react-loader-spinner'
+
 // import Loader from "../Loader";
 
 
@@ -19,9 +21,16 @@ export default function AuthHOC(
 
     if (session.status === "loading") {
       return (
-        <>  
-          Loading...
-        </>
+        <div className='w-screen h-screen flex justify-center items-center'>
+          <Blocks
+            visible={true}
+            height="80"
+            width="80"
+            ariaLabel="blocks-loading"
+            wrapperStyle={{}}
+            wrapperClass="blocks-wrapper"
+          />
+        </div>
       );
     }
 

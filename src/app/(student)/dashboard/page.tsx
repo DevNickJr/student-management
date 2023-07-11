@@ -9,6 +9,7 @@ import { LiaSchoolSolid } from 'react-icons/lia'
 import { GoNumber } from 'react-icons/go'
 import { CgNotes } from 'react-icons/cg'
 import { RiGraduationCapFill } from 'react-icons/ri'
+import Link from 'next/link'
 
 const userData = [
   {
@@ -51,12 +52,12 @@ const StudentHome = () => {
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4 justify-between mb-12">
         <div className="flex flex-col gap-2">
           <h1 className='text-2xl font-bold'>Welcome Back, {data?.user?.userDetails?.first_name}</h1>
-          <p className='text-sm'>You can easily register your courses on Eduverse</p>
+          <p className='text-xs md:text-sm'>You can easily register your courses on Eduverse</p>
         </div>
-        <button className='flex items-center gap-2 bg-primary p-2 pr-3 text-sm text-white w-fit'>
+        <Link href={'/courses/register'} className='flex items-center gap-2 bg-primary p-2 pr-3 text-xs md:text-sm text-white w-fit'>
           <MdAdd className='text-2xl' />
           Register Course
-        </button>
+        </Link>
       </div>
       <div className="bg-white p-4 md:p-8 pb-12 rounded-md">
         <h3 className="text-lg mb-8 md:mb-12 font-semibold">

@@ -48,7 +48,7 @@ const StudentPassswordChange = () => {
           <h1 className='text-2xl font-bold'>Profile Settings</h1>
       </div>
       <div className="bg-white p-4 pb-12 rounded-md">
-        <h3 className="mb-8">
+        <h3 className="text-lg mb-8 md:mb-12 font-semibold">
           Change Password
         </h3>
         <form className="mb-8 text-sm" onSubmit={changePassword}>

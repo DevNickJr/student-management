@@ -12,7 +12,7 @@ const StudentCourses = () => {
         </button>
       </div>
       <div className="bg-white p-4 pb-12 rounded-md">
-        <h3 className="text-lg mb-8">
+        <h3 className="text-lg mb-8 md:mb-12 font-semibold">
           Course Registration
         </h3>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10">

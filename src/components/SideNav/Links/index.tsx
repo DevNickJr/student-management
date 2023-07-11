@@ -21,7 +21,7 @@ const Links = ({ isOpen, setIsOpen }: { isOpen: boolean, setIsOpen: React.Dispat
         <ul className='flex flex-col text-dark-light gap-7 md:gap-4 lg:gap-7 font-medium'>
           <li><Link href="/dashboard" className={`pb-1.5 px-1 font-medium`}>Dashboard</Link></li>
           <li><Link href="/courses" className={`pb-1.5 px-1 font-medium`}>Courses</Link></li>
-          <li><Link href="/settings" className={`pb-1.5 px-1 font-medium`}>Settings</Link></li>
+          <li><Link href="/profile" className={`pb-1.5 px-1 font-medium`}>Settings</Link></li>
         </ul>
         <div onClick={() => signOut()} className={`w-fit py-2 pb-2.5 flex items-center gap-2 text-xs font-medium rounded-full`}>
             <MdLogout size={"1.3rem"} />

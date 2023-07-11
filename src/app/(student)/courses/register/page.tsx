@@ -8,7 +8,7 @@ const RegisterCourse = () => {
           <h1 className='text-2xl font-semibold'>Courses</h1>
       </div>
       <div className="bg-white p-4 pb-12 rounded-md">
-        <h3 className="mb-4">
+        <h3 className="text-lg mb-8 md:mb-12 font-semibold">
             Course Registration
         </h3>
         <form className="mb-8">

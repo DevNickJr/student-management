@@ -82,7 +82,7 @@ const StudentProfile = () => {
           <h1 className='text-2xl font-bold'>Profile Settings</h1>
       </div>
       <div className="bg-white p-4 pb-12 rounded-md">
-        <h3 className="">
+        <h3 className="text-lg mb-8 md:mb-12 font-semibold">
           Profile Image
         </h3>
         <div className='flex items-center gap-6 text-xs my-8'>

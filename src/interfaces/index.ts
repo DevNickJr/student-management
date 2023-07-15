@@ -41,8 +41,9 @@ export interface IProfile {
     phone: string
     first_name: string      
     last_name: string        
+    middle_name: string
     level: string      
-    matric_no: string  
+    matric_no: string 
   }
 
 export interface IUser extends IUserRegister {

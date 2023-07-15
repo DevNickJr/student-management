@@ -1,4 +1,5 @@
 'use client'
+import Loader from '@/components/Loader'
 import useFetch from '@/hooks/useFetch'
 import usePost from '@/hooks/usePost'
 import { IProfile, IReducerAction, IUser } from '@/interfaces'
@@ -17,10 +18,11 @@ const initialState: IProfile = {
   first_name: '',      
   last_name: '',        
   level: '',      
-  matric_no: '',  
+  matric_no: '', 
+  middle_name: ''
 }
 
-export interface IProfileReducerAction extends IReducerAction<"email"  | "phone" | "first_name" | "last_name" | "level" | "matric_no"> {
+export interface IProfileReducerAction extends IReducerAction<"email"  | "phone" | "first_name" | "last_name" | "level" | "matric_no" | "middle_name"> {
   payload: string
 }
 
@@ -55,6 +57,7 @@ const StudentProfile = () => {
       dispatch({type: 'last_name', payload: profile?.last_name})
       dispatch({type: 'level', payload: profile?.level})
       dispatch({type: 'matric_no', payload: profile?.matric_no})
+      dispatch({type: 'middle_name', payload: profile?.middle_name})
     }
   }, [profile])
 
@@ -78,6 +81,7 @@ const StudentProfile = () => {
   // console.log("profile", profile)
   return (
     <div className='p-4 overflow-y-auto'>
+      {(profilePhotoMutation?.isLoading || updateProfileMutation?.isLoading) && <Loader />}
       <div className="flex items-center gap-4 justify-between mb-12">
           <h1 className='text-2xl font-bold'>Profile Settings</h1>
       </div>
@@ -90,12 +94,12 @@ const StudentProfile = () => {
               <Image src={profile?.profile_picture_url || ''} alt='profile photo' width={100} height={100} className='rounded-full w-full h-full' />
             </div>
             <div className="flex flex-col gap-2">
-            <label htmlFor='dp' className='flex items-center justify-center gap-2 bg-primary p-2 pl-5 pr-6 text-sm text-white'>
+            <label htmlFor='dp' className='flex items-center justify-center gap-2 bg-primary p-2 pl-5 pr-6 text-sm text-white cursor-pointer'>
               <MdAdd className='text-2xl' />
               Change
             </label>
             <input name='dp' id='dp' type='file' onChange={changeDP} ref={imageRef} className='hidden' />
-            <button className='flex items-center justify-center gap-2 p-2 pl-5 pr-6 text-sm text-red-500 border bg-gray-50'>
+            <button className='flex items-center justify-center gap-2 p-2 pl-5 pr-6 text-sm text-red-500 border bg-gray-50 cursor-pointer'>
               <MdAdd className='text-2xl' />
               Delete
             </button>
@@ -105,15 +109,19 @@ const StudentProfile = () => {
           <div className='grid md:grid-cols-2 lg:grid-cols-3 gap-10'>
             <div className='flex flex-col gap-2 text-xs'>
               <label htmlFor="first_name">First Name</label>
-              <input type="text" name="first_name" id="first_name" className='border p-2 rounded-md text-sm' value={user?.first_name} onChange={(e) => dispatch({type: 'first_name', payload: e.target.value })} />
+              <input disabled type="text" name="first_name" id="first_name" className='border p-2 rounded-md text-sm' value={user?.first_name} onChange={(e) => dispatch({type: 'first_name', payload: e.target.value })} />
+            </div>
+            <div className='flex flex-col gap-2 text-xs'>
+              <label htmlFor="middle_name">Middle Name</label>
+              <input type="text" name="middle_name" id="middle_name" className='border p-2 rounded-md text-sm' value={user?.middle_name} onChange={(e) => dispatch({type: 'middle_name', payload: e.target.value })} />
             </div>
             <div className='flex flex-col gap-2 text-xs'>
               <label htmlFor="last_name">Last Name</label>
-              <input type="text" name="last_name" id="last_name" className='border p-2 rounded-md' value={user?.last_name} onChange={(e) => dispatch({type: 'last_name', payload: e.target.value })} />
+              <input disabled type="text" name="last_name" id="last_name" className='border p-2 rounded-md' value={user?.last_name} onChange={(e) => dispatch({type: 'last_name', payload: e.target.value })} />
             </div>
             <div className='flex flex-col gap-2 text-xs'>
               <label htmlFor="email">Email Address</label>
-              <input type="email" name="email" id="email" className='border p-2 rounded-md' value={user?.email} onChange={(e) => dispatch({type: 'email', payload: e.target.value })} />
+              <input disabled type="email" name="email" id="email" className='border p-2 rounded-md' value={user?.email} onChange={(e) => dispatch({type: 'email', payload: e.target.value })} />
             </div>
             <div className='flex flex-col gap-2 text-xs'>
               <label htmlFor="phone">Phone Number</label>
@@ -125,7 +133,7 @@ const StudentProfile = () => {
             </div>
             <div className='flex flex-col gap-2 text-xs'>
               <label htmlFor="matric">Matric Number</label>
-              <input type="text" name="matric" id="matric" className='border p-2 rounded-md' value={user?.matric_no} onChange={(e) => dispatch({type: 'matric_no', payload: e.target.value })} />
+              <input disabled type="text" name="matric" id="matric" className='border p-2 rounded-md' value={user?.matric_no} onChange={(e) => dispatch({type: 'matric_no', payload: e.target.value })} />
             </div>
           </div>
           <button type='submit' className='mt-12 flex items-center justify-center gap-2 bg-primary p-2 pl-5 pr-6 text-sm text-white'>

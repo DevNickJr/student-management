@@ -17,7 +17,7 @@ export default function AuthHOC(
     const session = useSession()
     const router = useRouter();
 
-    // console.log("session", session)
+    console.log("session", session)
 
     if (session.status === "loading") {
       return (

@@ -76,3 +76,15 @@ export interface ILoginReducerAction extends IReducerAction<"email" | "password"
 export interface IRegistereducerAction extends IReducerAction<"email" | "password" | "confirm_password" | "phone" | "first_name" | "last_name" | "level" | "matric_no"> {
     payload: string
 }
+
+
+export interface ITableColumn {
+    name: string;
+    label: string;
+    extra?: boolean;
+    custom?: (value: string, meta: any) => JSX.Element;
+    options?: {
+        filter: boolean;
+        sort: boolean;
+    };
+}

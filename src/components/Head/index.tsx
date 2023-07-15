@@ -9,7 +9,7 @@ const Head = () => {
 
 
   return (
-    <div className='absolute z-30 top-0 left-0 w-full sm:py-4 p-4 md:p-6 bg-white shadow flex gap-4 justify-between items-center overflow-hidden'>
+    <div className='fixed sm:ml-60 z-30 top-0 left-0 right-0 sm:py-4 p-4 md:px-6 bg-white shadow flex gap-4 justify-between items-center overflow-hidden'>
         <input type="text" placeholder='Search' className='border border-gray-300 rounded-full px-4 min-w-[100px] md:w-96' />
         <div className='flex items-center justify-between gap-2'>
           <div className="w-4 h-4 rounded-full bg-gray-200" />

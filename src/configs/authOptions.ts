@@ -59,8 +59,6 @@ export const authOptions: NextAuthOptions = {
         
         //   console.log({ credentials, req })
 
-          try {
-
 
             if (!credentials || !credentials.email || !credentials.password) {
                 return null;
@@ -80,11 +78,7 @@ export const authOptions: NextAuthOptions = {
           }
 
           return user;
-           
-          } catch (error: any) {
-              // console.log('error')
-              throw new Error(error?.message || 'An error occured');
-          }
+
       },
     }),
   ],

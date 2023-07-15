@@ -7,6 +7,7 @@ import { useSession, signIn, signOut } from "next-auth/react"
 import { useRouter } from 'next/navigation'
 import usePost from '@/hooks/usePost'
 import { apiLogin } from '@/services/AuthService'
+import Loader from '@/components/Loader'
 
 const initialState: IUserLogin = {
   email: '',
@@ -45,24 +46,31 @@ const { mutate } = usePost<IUserLogin, any>(
       console.log("user", user )
         const res = await signIn('credentials', {
             ...user,
-            redirect: true,
-            callbackUrl: `${window.location.origin}/dashboard`,
+            redirect: false,
+            // callbackUrl: `${window.location.origin}/dashboard`,
+            email: user?.email,
             onUnauthenticated() {
                 toast.error("Invalid Credentials")
             }
         })
 
         console.log("res", res)
+
+        if (!res?.error) {
+          return router.push('/dashboard')
+        }
+        
+        throw new Error(res?.error)
     } catch (error: any) {
         console.log("error", error)
         toast.error(error?.message)
-
     }
     setLoading(false)
 }
 
   return (
     <div className='md:pl-24'>
+      {loading && <Loader />}
       <div className="flex justify-center gap-16 items-center mb-12 text-lg">
           <div onClick={() => setActive('student')} className={`py-2 px-4 cursor-pointer ${active==='student' && 'border-b-[3px] border-primary text-primary font-semibold'}`}>Students</div>
           <div onClick={() => setActive('staff')} className={`py-2 px-4 cursor-pointer ${active==='staff' && 'border-b-[3px] border-primary text-primary font-semibold'}`}>Staff</div>

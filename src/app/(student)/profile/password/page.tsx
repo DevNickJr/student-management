@@ -4,6 +4,7 @@ import { IReducerAction, IPassword } from '@/interfaces'
 import { apiUpdatePassword } from '@/services/AuthService'
 import usePost from '@/hooks/usePost'
 import { toast } from 'react-toastify'
+import Loader from '@/components/Loader'
 
 
 export interface IPasswordReducer extends IReducerAction<"old_password" | "new_password" | "confirm_password"> {
@@ -44,6 +45,7 @@ const StudentPassswordChange = () => {
 
   return (
     <div className='p-4 overflow-y-auto'>
+      {updatePasswordMutation?.isLoading && <Loader />}
       <div className="flex items-center gap-4 justify-between mb-12">
           <h1 className='text-2xl font-bold'>Profile Settings</h1>
       </div>

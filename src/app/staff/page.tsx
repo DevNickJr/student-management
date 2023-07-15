@@ -1,52 +1,11 @@
 'use client'
-import { DataTable } from '@/components/Table/DataTable';
-import { DataTableRowActions } from '@/components/Table/DataTableRowActions';
-import { PaginationState, createColumnHelper } from '@tanstack/react-table';
 import React, { useState } from 'react'
-import { MdAdd } from 'react-icons/md'
 
-type Person = {
-  firstName: string
-  lastName: string
-  age: number
-  visits: number
-  status: string
-  progress: number
-}
 
 
 const StaffDashboard = () => {
-  const [{ pageIndex, pageSize }, setPagination] =
-  useState<PaginationState>({
-    pageIndex: 0,
-    pageSize: 10,
-  })
   
-const columnHelper = createColumnHelper<Person>()
-
-const defaultColumns = [
-  // Display Column
-  columnHelper.display({
-    id: 'actions',
-    cell: props => <DataTableRowActions row={props.row} />,
-  }),
   
-]
-
-const columns = [
-  columnHelper.accessor('firstName', {
-    // cell: info => info.getValue(),
-    cell: props => <DataTableRowActions row={props.row} />,
-    // footer: info => info.column.id,
-  }),
-  columnHelper.accessor(row => row.lastName, {
-    id: 'lastName',
-    cell: props => <DataTableRowActions row={props.row} />,
-    header: () => <span>Last Name</span>,
-    // footer: info => info.column.id,
-  }),
-]
-
   return (
     <div className='p-4 overflow-y-auto'>
       <div className="flex items-center gap-4 justify-between mb-12">
@@ -73,19 +32,64 @@ const columns = [
           </div>
           ))}
         </div>
-        <DataTable
+        {/* <DataTable
              data={
                []
-             }
-             columns={[...columns]}
+              }
+              columns={[...columns]}
              pageIndex={pageIndex}
               pageSize={pageSize}
-             pageCount={10}
-             onPaginationChange={setPagination}
-           />
+              pageCount={10}
+              onPaginationChange={setPagination}
+           /> */}
       </div>
     </div>
   )
 }
 
+
 export default StaffDashboard
+
+// import { DataTable } from '@/components/Table/DataTable';
+// import { DataTableRowActions } from '@/components/Table/DataTableRowActions';
+// import { PaginationState, createColumnHelper } from '@tanstack/react-table';
+
+// type Person = {
+//   firstName: string
+//   lastName: string
+//   age: number
+//   visits: number
+//   status: string
+//   progress: number
+// }
+
+// const [{ pageIndex, pageSize }, setPagination] =
+// useState<PaginationState>({
+//   pageIndex: 0,
+//   pageSize: 10,
+// })
+
+// const columnHelper = createColumnHelper<Person>()
+
+// const defaultColumns = [
+//   // Display Column
+//   columnHelper.display({
+//     id: 'actions',
+//     cell: props => <DataTableRowActions row={props.row} />,
+//   }),
+  
+// ]
+
+// const columns = [
+//   columnHelper.accessor('firstName', {
+//     // cell: info => info.getValue(),
+//     cell: props => <DataTableRowActions row={props.row} />,
+//     // footer: info => info.column.id,
+//   }),
+//   columnHelper.accessor(row => row.lastName, {
+//     id: 'lastName',
+//     cell: props => <DataTableRowActions row={props.row} />,
+//     header: () => <span>Last Name</span>,
+//     // footer: info => info.column.id,
+//   }),
+// ]

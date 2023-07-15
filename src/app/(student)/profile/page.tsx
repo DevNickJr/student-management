@@ -157,7 +157,9 @@ const StudentProfile = () => {
                 Deactivate
               </button>
             </div>
-            <p>You can reset or change your password by clicking here</p>
+            <p>
+              You can deactivate your account by clicking here
+            </p>
           </div>
         </div>
       </div>

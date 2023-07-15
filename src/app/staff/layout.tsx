@@ -1,11 +1,11 @@
 import React from 'react'
 import StaffNav from '@/components/StaffNav'
 import Head from '@/components/StaffHead'
-import { getServerSession } from 'next-auth/next'
+// import { getServerSession } from 'next-auth/next'
 
 const StaffLayout = ({ children }: { children: React.ReactNode }) => {
   // authenticate with getsession next-auth server side app route
-  const session = getServerSession()
+  // const session = getServerSession()
 
 
 

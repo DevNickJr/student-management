@@ -2,6 +2,7 @@ import React from 'react'
 import { MdAdd } from 'react-icons/md'
 
 const StudentCourses = () => {
+
   return (
     <div className='p-4 overflow-y-auto'>
       <div className="flex items-center gap-4 justify-between mb-12">

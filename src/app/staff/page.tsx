@@ -3,7 +3,7 @@ import StaffTable from '@/components/StaffTable'
 import useFetch from '@/hooks/useFetch'
 import { IProfile, ITableColumn } from '@/interfaces'
 import { apiGetUser } from '@/services/AuthService'
-import { apiGetStudents } from '@/services/StaffService'
+import { apiGetStudents, apiGetAnalytics } from '@/services/StaffService'
 import Link from 'next/link'
 import React from 'react'
 import { MdAdd } from 'react-icons/md'
@@ -15,8 +15,12 @@ const StaffDashboard = () => {
     key: ['staff', 'students'],
     select: ((d: any) => d?.data)
   })
+  const { data: analytics } = useFetch({
+    api: apiGetAnalytics, 
+    key: ['analytics'],
+  })
 
-  console.log({ students })
+  console.log({ analytics })
 
   const columns: ITableColumn[] = [
     {
@@ -58,28 +62,28 @@ const StaffDashboard = () => {
         Students Records
         </h3>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10 mb-8 md:mb-12 text-white">
-            <div className='bg-primary rounded-md p-4 flex-1 flex flex-col gap-12'>
+            <div className='bg-primary rounded-md p-4 flex-1 flex flex-col justify-between gap-12'>
               <p className='pr-12'>Total Number of Attempted Registration</p>
               <div className="flex justify-between gap-4 items-center mb-2">
-                <h6 className='font-semibold text-5xl'>65</h6>
+                <h6 className='font-semibold text-5xl'>{analytics?.total_students || 0}</h6>
                 <button className='p-1 px-2 text-sm text-white'>
                   View
                 </button>
               </div>
             </div>
-            <div className='bg-[#43A2B1] rounded-md p-4 flex-1 flex flex-col gap-12'>
+            <div className='bg-[#43A2B1] rounded-md p-4 flex-1 flex flex-col justify-between gap-12'>
               <p className='pr-12'>Total Number of Successful Registration</p>
               <div className="flex justify-between gap-4 items-center mb-2">
-                <h6 className='font-semibold text-5xl'>10</h6>
+                <h6 className='font-semibold text-5xl'>{analytics?.total_verified_students || 0}</h6>
                 <button className='p-1 px-2 text-sm text-white'>
                   View
                 </button>
               </div>
             </div>
-            <div className='bg-[#C65E34] rounded-md p-4 flex-1 flex flex-col gap-12'>
+            <div className='bg-[#C65E34] rounded-md p-4 flex-1 flex flex-col justify-between gap-12'>
               <p className='pr-12'>Total Number of Failed Registration</p>
               <div className="flex justify-between gap-4 items-center mb-2">
-                <h6 className='font-semibold text-5xl'>122</h6>
+                <h6 className='font-semibold text-5xl'>{analytics?.total_unverified_students || 0}</h6>
                 <button className='p-1 px-2 text-sm text-white'>
                   View
                 </button>

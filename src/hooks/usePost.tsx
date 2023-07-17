@@ -39,7 +39,7 @@ const usePost = <T,K>(api: (data: T, token?: string) => Promise<AxiosResponse>, 
         onError: (error: any, variables, context) => {
             console.log("error", error)
             if (showErrorMessage) {
-              toast.error(error?.message || "An Error Occurred!");
+              toast.error(error?.response?.data?.data?.message || "An Error Occurred!");
             } else {
               // toast.error("An Error Occurred!");
             }

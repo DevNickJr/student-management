@@ -8,9 +8,11 @@ import Webcam from "react-webcam";
 import { IRegisterFace } from '@/interfaces'
 import { apiRegisterFace } from '@/services/AuthService'
 import usePost from '@/hooks/usePost'
+import { useRouter } from 'next/navigation'
+import Loader from '@/components/Loader'
 
 const initialState: IRegisterFace = {
-  email: 'nick@futo.edu.ng',
+  email: '',
   image: '',
 }
 
@@ -18,13 +20,17 @@ const initialState: IRegisterFace = {
 const FaceId = () => {
   const [active, setActive] = React.useState<'student' | 'staff'>('student')
   const [modalOpen, setModalOpen] = React.useState(false)
+  const router = useRouter()
   const webcamRef = React.useRef<Webcam>(null);
   const [imgSrc, setImgSrc] = React.useState<string>('');
   const registerFaceMutation = usePost(apiRegisterFace, {
     onSuccess: (data) => {
       console.log('data', data)
+      router.push('/')
     }
   })
+
+  // console.log({ router, is: sessionStorage.getItem('email') })
   
 
 
@@ -43,14 +49,19 @@ const FaceId = () => {
   }, [webcamRef, setImgSrc]);
 
   const registerFace = async () => {
-    console.log('register face')
-
+    // console.log('register face')
     const blob: Blob = await fetch(imgSrc).then(r => r.blob())
 
     const file = new File([blob], 'face2', { type: 'image/png' });
 
     const formData = new FormData()
-    formData.append('email', 'nick2@futo.edu.ng')
+
+    if (window == undefined) {
+      return
+    }
+
+    formData.append('email', sessionStorage.getItem('email')!)
+
     formData.append('image', file)
 
     registerFaceMutation.mutate(formData)
@@ -58,6 +69,7 @@ const FaceId = () => {
 
   return (
     <div className='md:pl-24 py-4'>
+      {registerFaceMutation?.isLoading && <Loader />}
       <div className="flex justify-center gap-16 items-center mb-12 text-lg">
           <div onClick={() => setActive('student')} className={`py-2 px-4 cursor-pointer ${active==='student' && 'border-b-[3px] border-primary text-primary font-semibold'}`}>Students</div>
           <div onClick={() => setActive('staff')} className={`py-2 px-4 cursor-pointer ${active==='staff' && 'border-b-[3px] border-primary text-primary font-semibold'}`}>Staff</div>

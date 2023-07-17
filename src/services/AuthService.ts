@@ -1,4 +1,3 @@
-import ApiAdapter from "./ApiService"
 import { IUserRegister, IUserLogin, IUser, IProfile, IPassword, IRegisterFace, IVerifiedFace, IForgotPassword, IChangePassword } from '@/interfaces'
 import BaseService from "./BaseService"
 import { User } from "next-auth"

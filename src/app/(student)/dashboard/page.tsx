@@ -11,42 +11,10 @@ import { CgNotes } from 'react-icons/cg'
 import { RiGraduationCapFill } from 'react-icons/ri'
 import Link from 'next/link'
 
-const userData = [
-  {
-    accessor: ['last_name', 'first_name', 'middle_name'],
-    label: 'Name',
-    Icon: BsFillPersonFill,
-  },
-  {
-    accessor: 'email',
-    label: 'Email',
-    Icon: BsFillPersonFill,
-  },
-  {
-    accessor: 'phone',
-    label: 'Phone',
-    Icon: BsFillPersonFill,
-  },
-  {
-    accessor: 'level',
-    label: 'Level',
-    Icon: BsFillPersonFill,
-  },
-  {
-    accessor: 'matric_no',
-    label: 'Matric Number',
-    Icon: BsFillPersonFill,
-  },
-  {
-    accessor: 'is_verified',
-    label: 'Verified',
-  }
-]
 
 const StudentHome = () => {
   const { data } = useSession()
 
-  // console.log("dash session", data)
   return (
     <div className='p-4 md:p-6 overflow-y-auto'>
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4 justify-between mb-12">

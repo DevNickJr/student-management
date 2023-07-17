@@ -7,8 +7,6 @@ const StaffLayout = ({ children }: { children: React.ReactNode }) => {
   // authenticate with getsession next-auth server side app route
   // const session = getServerSession()
 
-
-
   return (
       <div className='flex bg-footer-bg overflow-hidden h-screen w-full'>
         <StaffNav />

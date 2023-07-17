@@ -1,95 +1,109 @@
 'use client'
-import React, { useState } from 'react'
-
+import StaffTable from '@/components/StaffTable'
+import useFetch from '@/hooks/useFetch'
+import { IProfile, ITableColumn } from '@/interfaces'
+import { apiGetUser } from '@/services/AuthService'
+import { apiGetStudents } from '@/services/StaffService'
+import Link from 'next/link'
+import React from 'react'
+import { MdAdd } from 'react-icons/md'
 
 
 const StaffDashboard = () => {
-  
-  
+  const { data: students, error, isLoading, isFetching, remove, refetch, fetchStatus } = useFetch({
+    api: apiGetStudents, 
+    key: ['staff', 'students'],
+    select: ((d: any) => d?.data)
+  })
+
+  console.log({ students })
+
+  const columns: ITableColumn[] = [
+    {
+      name: 'matric_no',
+      label: 'Reg Number',
+    },
+    {
+      name: 'full_name',
+      label: "Student's Name",
+    },
+    {
+      name: 'option',
+      label: 'Options',
+    },
+    {
+      name: 'level',
+      label: 'Level',
+    }
+  ]
+
+  const data = [
+    {
+      matric_no: 'I am Nick',
+      full_name: "Is rough"
+    },
+    {
+      Nick: 'Roses are red',
+      full_name: "sTAY wITH ME"
+    },
+  ]
+
   return (
-    <div className='p-4 overflow-y-auto'>
-      <div className="flex items-center gap-4 justify-between mb-12">
+    <div className='p-4 md:p-6 overflow-y-auto'>
+      <div className="flex items-center gap-4 justify-between mb-8">
         <h1 className='text-2xl font-semibold'>Students</h1>
-        {/* <button className='flex items-center gap-2 bg-primary p-2 pr-3 text-sm text-white'>
-          <MdAdd className='text-2xl' />
-          Register Course
-        </button> */}
       </div>
       <div className="bg-white p-4 pb-12 rounded-md">
-        <h3 className="text-lg mb-8">
-          Student Records
+        <h3 className="text-lg mb-8 font-semibold">
+        Students Records
         </h3>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
-          {[0,1,2].map((_, i) => (
-          <div key={i} className='bg-primary rounded-md p-4 flex-1 flex flex-col gap-12'>
-            <p>Total Number of Attempted Registration</p>
-            <div className="flex justify-between gap-4 items-center mb-2">
-              <h6 className='font-semibold text-5xl'>792</h6>
-              <button className='p-1 px-2 text-sm text-white'>
-                View
-              </button>
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10 mb-8 md:mb-12 text-white">
+            <div className='bg-primary rounded-md p-4 flex-1 flex flex-col gap-12'>
+              <p className='pr-12'>Total Number of Attempted Registration</p>
+              <div className="flex justify-between gap-4 items-center mb-2">
+                <h6 className='font-semibold text-5xl'>65</h6>
+                <button className='p-1 px-2 text-sm text-white'>
+                  View
+                </button>
+              </div>
             </div>
-          </div>
-          ))}
+            <div className='bg-[#43A2B1] rounded-md p-4 flex-1 flex flex-col gap-12'>
+              <p className='pr-12'>Total Number of Successful Registration</p>
+              <div className="flex justify-between gap-4 items-center mb-2">
+                <h6 className='font-semibold text-5xl'>10</h6>
+                <button className='p-1 px-2 text-sm text-white'>
+                  View
+                </button>
+              </div>
+            </div>
+            <div className='bg-[#C65E34] rounded-md p-4 flex-1 flex flex-col gap-12'>
+              <p className='pr-12'>Total Number of Failed Registration</p>
+              <div className="flex justify-between gap-4 items-center mb-2">
+                <h6 className='font-semibold text-5xl'>122</h6>
+                <button className='p-1 px-2 text-sm text-white'>
+                  View
+                </button>
+              </div>
+            </div>
         </div>
-        {/* <DataTable
-             data={
-               []
-              }
-              columns={[...columns]}
-             pageIndex={pageIndex}
-              pageSize={pageSize}
-              pageCount={10}
-              onPaginationChange={setPagination}
-           /> */}
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-8 mb-8 text-sm">
+          <span className='font-semibold'>Registered Students</span>
+          <div className="flex flex-col md:flex-row md:items-center gap-4">
+            <input type="text" name="search" id="search" placeholder='Type here to search' className='border border-gray-300 px-4 text-sm bg-[#F7F7F7]' />
+            <select name="filter" id="filter" className='text-sm py-2 sm:w-fit'>
+              <option defaultChecked value="">Filter By</option>
+              <option value="name">Name</option>
+              <option value="level">Level</option>
+              <option value="status">Status</option>
+            </select>
+          </div>         
+        </div>
+        <div className='text-[#143E6C]'>
+          <StaffTable data={students?.results || []} columns={columns} />
+        </div>
       </div>
     </div>
   )
 }
 
-
 export default StaffDashboard
-
-// import { DataTable } from '@/components/Table/DataTable';
-// import { DataTableRowActions } from '@/components/Table/DataTableRowActions';
-// import { PaginationState, createColumnHelper } from '@tanstack/react-table';
-
-// type Person = {
-//   firstName: string
-//   lastName: string
-//   age: number
-//   visits: number
-//   status: string
-//   progress: number
-// }
-
-// const [{ pageIndex, pageSize }, setPagination] =
-// useState<PaginationState>({
-//   pageIndex: 0,
-//   pageSize: 10,
-// })
-
-// const columnHelper = createColumnHelper<Person>()
-
-// const defaultColumns = [
-//   // Display Column
-//   columnHelper.display({
-//     id: 'actions',
-//     cell: props => <DataTableRowActions row={props.row} />,
-//   }),
-  
-// ]
-
-// const columns = [
-//   columnHelper.accessor('firstName', {
-//     // cell: info => info.getValue(),
-//     cell: props => <DataTableRowActions row={props.row} />,
-//     // footer: info => info.column.id,
-//   }),
-//   columnHelper.accessor(row => row.lastName, {
-//     id: 'lastName',
-//     cell: props => <DataTableRowActions row={props.row} />,
-//     header: () => <span>Last Name</span>,
-//     // footer: info => info.column.id,
-//   }),
-// ]

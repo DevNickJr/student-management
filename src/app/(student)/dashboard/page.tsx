@@ -2,7 +2,7 @@
 import React from 'react'
 import { useSession } from 'next-auth/react'
 import { MdAdd } from 'react-icons/md'
-import { BsFillPersonFill, BsBarChartFill } from 'react-icons/bs'
+import { BsFillPersonFill, BsBarChartFill, BsCheck2 } from 'react-icons/bs'
 import { FaSchool} from 'react-icons/fa'
 import { BiSolidSchool} from 'react-icons/bi'
 import { LiaSchoolSolid } from 'react-icons/lia'
@@ -16,7 +16,12 @@ const StudentHome = () => {
   const { data } = useSession()
 
   return (
-    <div className='p-4 md:p-6 overflow-y-auto'>
+    <div className='p-4 md:p-6 overflow-y-auto relative'>
+      {/* <div className='absolute top-0 left-0 w-full h-full bg-primaryDark opacity-10'>
+            <div className='w-full max-w-lg p-4 md:p-12 flex flex-col gap-6 items-center bg-white'>
+              <BsCheck2 className='text-2xl' />
+            </div>
+      </div> */}
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4 justify-between mb-12">
         <div className="flex flex-col gap-2">
           <h1 className='text-2xl font-bold'>Welcome Back, {data?.user?.userDetails?.first_name}</h1>

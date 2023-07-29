@@ -18,6 +18,7 @@ const initialState: IVerifiedFace = {
 
 const StaffScan = () => {
   const [modalOpen, setModalOpen] = React.useState(false)
+  const [scan, setScan] = React.useState(false)
   const webcamRef = React.useRef<Webcam>(null);
   const [imgSrc, setImgSrc] = React.useState<string>('');
   const verifyFaceMutation = usePost(apiVerifyFace, {
@@ -29,6 +30,10 @@ const StaffScan = () => {
   })
 
   const capture = React.useCallback(async () => {
+    if (!scan) {
+      setScan(true)
+      return
+    }
     if (!webcamRef.current) return;
     const imageSrc = webcamRef.current.getScreenshot();
     if (!imageSrc) return;
@@ -52,7 +57,7 @@ const StaffScan = () => {
     console.log('formdata', file)
 
     verifyFaceMutation.mutate(formData)
-  }, [webcamRef, verifyFaceMutation]);
+  }, [webcamRef, verifyFaceMutation, scan]);
 
 
   return (
@@ -74,14 +79,29 @@ const StaffScan = () => {
           </h3>
           <div className="flex justify-center items-center h-64 md:h-96 border-2 border-primary border-dashed rounded-md py-10">
             {/* <Image src={ScanImage} alt='Scan' className='w-full h-full' /> */}
-            <>
+          <div className='h-72 w-72 flex'>
+            
             {
               !imgSrc ? (
-                <Webcam
-                    audio={false}
-                    ref={webcamRef}
-                    screenshotFormat="image/jpeg"
-                />
+                <>
+                  {
+                    scan ? 
+                        <Webcam
+                            audio={false}
+                            ref={webcamRef}
+                            screenshotFormat="image/jpeg"
+                            className='w-full h-full'
+                        />
+                     :
+                    <Image
+                      src={ScanImage}
+                      width={100}
+                      height={100}
+                      alt="Scan"
+                      className='w-full h-full'
+                  />
+                  }
+                </>
               )
             :
                 <Image
@@ -89,9 +109,10 @@ const StaffScan = () => {
                     width={640}
                     height={480}
                     alt="Picture of the user"
+                    className='w-full h-full'
                 />
             } 
-          </>
+          </div>
           </div>
           <button onClick={capture} className='mx-auto mt-12 flex items-center justify-center gap-2 bg-primary p-2 pl-5 pr-6 text-sm text-white'>
             Click to Scan

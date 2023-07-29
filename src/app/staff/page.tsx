@@ -20,7 +20,7 @@ const StaffDashboard = () => {
     key: ['analytics'],
   })
 
-  console.log({ analytics })
+  // console.log({ analytics })
 
   const columns: ITableColumn[] = [
     {
@@ -33,7 +33,7 @@ const StaffDashboard = () => {
     },
     {
       name: 'option',
-      label: 'Options',
+      label: 'Option',
     },
     {
       name: 'level',
@@ -41,16 +41,7 @@ const StaffDashboard = () => {
     }
   ]
 
-  const data = [
-    {
-      matric_no: 'I am Nick',
-      full_name: "Is rough"
-    },
-    {
-      Nick: 'Roses are red',
-      full_name: "sTAY wITH ME"
-    },
-  ]
+  // console.log({ students })
 
   return (
     <div className='p-4 md:p-6 overflow-y-auto'>

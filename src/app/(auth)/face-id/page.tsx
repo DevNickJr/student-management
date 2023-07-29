@@ -19,6 +19,7 @@ const initialState: IRegisterFace = {
 
 const FaceId = () => {
   const [active, setActive] = React.useState<'student' | 'staff'>('student')
+  const [scan, setScan] = React.useState(false)
   const [modalOpen, setModalOpen] = React.useState(false)
   const router = useRouter()
   const webcamRef = React.useRef<Webcam>(null);
@@ -35,6 +36,15 @@ const FaceId = () => {
 
 
   const capture = React.useCallback(async () => {
+    console.log('capturing 1', scan)
+
+
+    if (!scan) {
+      console.log('capturing 2')
+      setScan(true)
+      return
+    }
+    console.log('capturing')
     if (!webcamRef.current) return;
     const imageSrc = webcamRef.current.getScreenshot();
     if (!imageSrc) return;
@@ -46,7 +56,7 @@ const FaceId = () => {
     // console.log('image', imageSrc, file)
     setImgSrc(imageSrc);
     setModalOpen(false)
-  }, [webcamRef, setImgSrc]);
+  }, [webcamRef, setImgSrc, scan]);
 
   const registerFace = async () => {
     // console.log('register face')
@@ -79,15 +89,29 @@ const FaceId = () => {
           <p className='text-sm'>Scan your face to register it on the Database</p>
       </div>
       <form className="max-w-lg mx-auto">
-        <div className="flex justify-center items-center h-48 md:h-68 border-2 border-primary border-dashed rounded-md py-10">
-          <>
+        <div className="flex justify-center items-center h-48 md:h-68 border-2 border-primary border-dashed rounded-md relative">
+          <div className='h-48 w-48 flex'>
             {
               !imgSrc ? (
-                <Webcam
-                    audio={false}
-                    ref={webcamRef}
-                    screenshotFormat="image/jpeg"
-                />
+                <>
+                   {
+                    scan ? (
+                      <Webcam
+                          audio={false}
+                          ref={webcamRef}
+                          screenshotFormat="image/jpeg"
+                          className='w-full h-full'
+                      />
+                    ) :
+                    <Image
+                      src={ScanImage}
+                      width={100}
+                      height={100}
+                      alt="Scan"
+                      className='w-full h-full my-10'
+                  />
+                   } 
+                </>
               )
             :
                 <Image
@@ -95,19 +119,19 @@ const FaceId = () => {
                     width={640}
                     height={480}
                     alt="Picture of the user"
+                    className='w-full h-full'
                 />
             } 
-          </>
-          {/* <Image src={ScanImage} alt='Scan' className='w-full h-full' /> */}
+          </div>
         </div>
         <>
           {
             !imgSrc ? (
-            <div onClick={capture} className='mt-12 flex items-center justify-center gap-2 bg-primary p-4 pl-5 pr-6 text-sm text-white rounded-md w-full font-bold'>
-              Scan
+            <div onClick={capture} className='mt-12 flex items-center justify-center gap-2 bg-primary p-4 pl-5 pr-6 text-sm text-white rounded-md w-full font-bold cursor-pointer'>
+              {!scan ? 'Scan' : 'Capture Image'}
             </div> )
           :
-          <div onClick={registerFace} className='mt-12 flex items-center justify-center gap-2 bg-primary p-4 pl-5 pr-6 text-sm text-white rounded-md w-full font-bold'>
+          <div onClick={registerFace} className='mt-12 flex items-center justify-center gap-2 bg-primary p-4 pl-5 pr-6 text-sm text-white rounded-md w-full font-bold cursor-pointer'>
             Proceed
           </div>
           }

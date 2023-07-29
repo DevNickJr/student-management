@@ -8,7 +8,7 @@ import { GiCrownedSkull } from 'react-icons/gi'
 import { BsFillPersonFill } from 'react-icons/bs'
 import { TiNews } from 'react-icons/ti'
 import { FaAward } from 'react-icons/fa'
-import { AiTwotoneGold, AiOutlineHome } from 'react-icons/ai'
+import { AiTwotoneGold, AiOutlineHome, AiOutlineCopyrightCircle } from 'react-icons/ai'
 import Logo from "@/assets/logo.svg"
 import Image from 'next/image'
 import { useSession, signIn, signOut } from "next-auth/react"
@@ -43,9 +43,22 @@ const StaffNav = ({ }) => {
                 </Link>
             </div>
         </div>
-        <div onClick={() => signOut()} className={`py-2.5 pl-6 text-sm flex items-center gap-2 cursor-pointer`}>
-            <MdLogout size={"1.3rem"} />
-            Logout
+        <div className='flex flex-col gap-10 pb-2 text-black/70'>
+            <div onClick={() => signOut()} className={`py-2.5 pl-6 text-sm flex items-center gap-2 cursor-pointer`}>
+                <MdLogout size={"1.3rem"} />
+                Logout
+            </div>
+            <div className='px-6'>
+                <div className={`p-2.5 text-sm flex flex-col gap-4 bg-primaryDark text-white rounded-md`}>
+                    <div className='flex items-center gap-4'>
+                        <AiOutlineCopyrightCircle size={"1.3rem"} />
+                        <p className='text-sm'>Eduverse. 2023</p>
+                    </div>
+                    <p className='text-[10px] leading-tight'>
+                        An Online learning platform for to Lecturers to verify all students in a particular department
+                    </p>
+                </div>
+            </div>
         </div>
     </div>
   )

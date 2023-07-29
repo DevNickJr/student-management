@@ -26,9 +26,13 @@ const { mutate } = usePost<IUserLogin, any>(
   apiLogin,
   {
     onSuccess: () => {
+      console.log({ active })
         // queryClient.invalidateQueries('user')
         toast.success("Logged in Successfully")
-        router.push('/dashboard')
+        if (active === 'student') {
+          return router.push('/dashboard')
+        }
+        router.push('/staff')
     },
     onError: (error: any) => {
         toast.error(error?.message || "An error occured")
@@ -57,7 +61,11 @@ const { mutate } = usePost<IUserLogin, any>(
         console.log("res", res)
 
         if (!res?.error) {
-          return router.push('/dashboard')
+          if (active === 'student') {
+            return router.push('/dashboard')
+          }
+          return router.push('/staff')
+          // return router.push('/dashboard')
         }
         
         throw new Error(res?.error)

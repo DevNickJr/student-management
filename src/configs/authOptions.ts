@@ -69,6 +69,8 @@ export const authOptions: NextAuthOptions = {
                 password: credentials.password
             })
 
+            console.log({res})
+
             const user: User = res.data
 
             // console.log({ user })

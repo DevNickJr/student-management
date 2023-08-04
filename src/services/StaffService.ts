@@ -15,5 +15,5 @@ export const apiGetAnalytics = () => {
 }
 
 export const apiGetStudents = (query: string) => {
-    return BaseService.get(`${servicePrefix}/students/`)
+    return BaseService.get(`${servicePrefix}/students/${query || ''}`)
 }

@@ -6,7 +6,8 @@ import Button from "../Button";
 interface Props<T = any> { 
   data: T[] 
   columns: ITableColumn[]
-  className?: string 
+  className?: string,
+  colSpan?: number  
 } 
 
 
@@ -35,7 +36,7 @@ const formatDate = (date: number) => {
 };
 
 
-const Table = <T extends any>({ data, columns, className }: Props) => {
+const Table = <T extends any>({ data, columns, className, colSpan }: Props) => {
   const [filtererdData, setFilteredData] = React.useState<null | T[]>(null);
   const [search, setSearch] = React.useState<string>("");
 
@@ -64,15 +65,15 @@ const Table = <T extends any>({ data, columns, className }: Props) => {
 
   return (
       <div className="overflow-hidden">
-        {/* <div className="flex items-center gap-8 w-full mb-8">
+        {/* <div className="flex items-center w-full gap-8 mb-8">
          <input value={search} onChange={(e) => setSearch(e.target.value)} type="text" placeholder="search" className="my-2 w-full border-black/20 md:pl-4 p-2 py-2.5 rounded-lg border-2 outline-none" />
          <Button onClick={handleFilter} className="text-white px-4 sm:px-8 py-2.5 rounded-lg">Search</Button>
         </div> */}
-        <div className="overflow-x-auto pb-10 text-sm">
-          <table className="min-w-full text-left text-sm font-light table-auto border-collapse rounded-t-lg">
-            <thead className="font-normal rounded-t border-l border-r">
+        <div className="pb-10 overflow-x-auto text-sm">
+          <table className="min-w-full text-sm font-light text-left border-collapse rounded-t-lg table-auto">
+            <thead className="font-normal border-l border-r rounded-t">
               <tr className="bg-[#1B5390] rounded-t-lg"> 
-                <th colSpan={4} className="border-none rounded-t-lg">
+                <th colSpan={colSpan || 4} className="border-none rounded-t-lg">
                   <div className="flex justify-between items-center gap-4 md:gap-8 px-4 py-3 bg-[#1B5390] text-white rounded-t-lg">
                     <span>All Students</span>
                   </div>
@@ -80,7 +81,7 @@ const Table = <T extends any>({ data, columns, className }: Props) => {
               </tr>
               <tr className="bg-[#ECF5FF]">
                 {columns?.map((item, index) => (
-                 <th key={index} scope="col" className="px-4 py-3 font-medium whitespace-nowrap border border-primary/90">{item?.label}</th>
+                 <th key={index} scope="col" className="px-4 py-3 font-medium border whitespace-nowrap border-primary/90">{item?.label}</th>
                 ))}
               </tr>
             </thead>
@@ -91,28 +92,28 @@ const Table = <T extends any>({ data, columns, className }: Props) => {
                     // console.log("column", column)
                     if (column?.extra && column?.custom) {
                       return ( 
-                        <td key={index} className="whitespace-nowrap px-4 py-3 border border-primary/90">
+                        <td key={index} className="px-4 py-3 border whitespace-nowrap border-primary/90">
                           {column?.custom(item[column?.name as keyof T], item)}
                         </td>
                       )
                     } else if (column?.name === "updated_at" || column?.name === "created_at" || column?.name === "created") {
-                      return <td key={index} className="whitespace-nowrap px-4 py-3 border border-primary/90">{formatDate(Number(item[column?.name as keyof T]))}</td>
+                      return <td key={index} className="px-4 py-3 border whitespace-nowrap border-primary/90">{formatDate(Number(item[column?.name as keyof T]))}</td>
                     }
-                    return <td key={index} className="whitespace-nowrap px-4 py-3 border border-primary/90">{item[column?.name as keyof T]}</td>
+                    return <td key={index} className="px-4 py-3 border whitespace-nowrap border-primary/90">{item[column?.name as keyof T]}</td>
                   }
                   )}
                 </tr>
               )
               ): 
               <tr>
-                  <td colSpan={columns?.length} className="text-center py-10">
+                  <td colSpan={columns?.length} className="py-10 text-center">
                     <p className="text-[#737B7B] text-sm">No data found</p>
                   </td>
                 </tr>
                 }
               {/* {data?.length <= 0  && (
                 <tr>
-                  <td colSpan={columns?.length} className="text-center py-10">
+                  <td colSpan={columns?.length} className="py-10 text-center">
                     <p className="text-[#737B7B] text-sm">No data found</p>
                   </td>
                 </tr>

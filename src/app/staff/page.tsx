@@ -1,104 +1,139 @@
 'use client'
-import StaffTable from '@/components/StaffTable'
-import useFetch from '@/hooks/useFetch'
-import { IProfile, ITableColumn } from '@/interfaces'
-import { apiGetUser } from '@/services/AuthService'
-import { apiGetStudents, apiGetAnalytics } from '@/services/StaffService'
-import Link from 'next/link'
 import React from 'react'
 import { MdAdd } from 'react-icons/md'
+import ScanImage from '@/assets/scan.svg'
+import Image from 'next/image'
+import { IVerifiedFace } from '@/interfaces'
+import { apiVerifyFace } from '@/services/AuthService'
+import usePost from '@/hooks/usePost'
+import { toast } from 'react-toastify'
+import Webcam from "react-webcam";
+// import { useRouter } from 'next/navigation'
+
+const initialState: IVerifiedFace = {
+  level: '200',
+  image: '',
+}
 
 
-const StaffDashboard = () => {
-  const { data: students, error, isLoading, isFetching, remove, refetch, fetchStatus } = useFetch({
-    api: apiGetStudents, 
-    key: ['staff', 'students'],
-    select: ((d: any) => d?.data)
-  })
-  const { data: analytics } = useFetch({
-    api: apiGetAnalytics, 
-    key: ['analytics'],
-  })
-
-  // console.log({ analytics })
-
-  const columns: ITableColumn[] = [
-    {
-      name: 'matric_no',
-      label: 'Reg Number',
-    },
-    {
-      name: 'full_name',
-      label: "Student's Name",
-    },
-    {
-      name: 'option',
-      label: 'Option',
-    },
-    {
-      name: 'level',
-      label: 'Level',
+const StaffHome = () => {
+  const [modalOpen, setModalOpen] = React.useState(false)
+  const [scan, setScan] = React.useState(false)
+  const webcamRef = React.useRef<Webcam>(null);
+  const [imgSrc, setImgSrc] = React.useState<string>('');
+  const verifyFaceMutation = usePost(apiVerifyFace, {
+    requireAuth: true,
+    onSuccess: (data) => {
+      toast.success(data.message || 'Face verified successfully')
+      // router.push('/staff/scan/verify')
     }
-  ]
+  })
 
-  // console.log({ students })
+  const capture = React.useCallback(async () => {
+    if (!scan) {
+      setScan(true)
+      return
+    }
+    if (!webcamRef.current) return;
+    const imageSrc = webcamRef.current.getScreenshot();
+    if (!imageSrc) return;
+    // const blob: Blob = await fetch(imageSrc).then(r => r.blob())
+    // // const blob = await base64Response.blob();
+    // const imgs = new File([blob], 'face2', { type: 'image/png' });
+    // // const blob: Blob = imageSrc.blob()
+    // const file = new File([imageSrc], 'filename.png', { type: 'image/png' })
+    // console.log('image', imageSrc, file)
+    setImgSrc(imageSrc);
+    setModalOpen(false)
+
+    const blob: Blob = await fetch(imageSrc).then(r => r.blob())
+
+    const file = new File([blob], 'face2', { type: 'image/png' });
+
+    const formData = new FormData()
+    formData.append('level', '200')
+    formData.append('image', file)
+
+    console.log('formdata', file)
+
+    verifyFaceMutation.mutate(formData)
+  }, [webcamRef, verifyFaceMutation, scan]);
+
 
   return (
-    <div className='p-4 md:p-6 overflow-y-auto'>
-      <div className="flex items-center gap-4 justify-between mb-8">
-        <h1 className='text-2xl font-semibold'>Students</h1>
+    <div className='p-4 overflow-y-auto'>
+      <div className="flex items-center justify-between gap-4 mb-12">
+        <div className="flex flex-col gap-2">
+          <h1 className='text-2xl font-bold'>Welcome Back, Jonathan</h1>
+          <p className='text-sm'>You can easily verify students by scanning them</p>
+        </div>
+        {/* <button className='flex items-center gap-2 p-2 pr-3 text-sm text-white bg-primary'>
+          <MdAdd className='text-2xl' />
+          Register Course
+        </button> */}
       </div>
-      <div className="bg-white p-4 pb-12 rounded-md">
-        <h3 className="text-lg mb-8 font-semibold">
-        Students Records
-        </h3>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10 mb-8 md:mb-12 text-white">
-            <div className='bg-primary rounded-md p-4 flex-1 flex flex-col justify-between gap-12'>
-              <p className='pr-12'>Total Number of Attempted Registration</p>
-              <div className="flex justify-between gap-4 items-center mb-2">
-                <h6 className='font-semibold text-5xl'>{analytics?.total_students || 0}</h6>
-                <button className='p-1 px-2 text-sm text-white'>
-                  View
-                </button>
-              </div>
-            </div>
-            <div className='bg-[#43A2B1] rounded-md p-4 flex-1 flex flex-col justify-between gap-12'>
-              <p className='pr-12'>Total Number of Successful Registration</p>
-              <div className="flex justify-between gap-4 items-center mb-2">
-                <h6 className='font-semibold text-5xl'>{analytics?.total_verified_students || 0}</h6>
-                <button className='p-1 px-2 text-sm text-white'>
-                  View
-                </button>
-              </div>
-            </div>
-            <div className='bg-[#C65E34] rounded-md p-4 flex-1 flex flex-col justify-between gap-12'>
-              <p className='pr-12'>Total Number of Failed Registration</p>
-              <div className="flex justify-between gap-4 items-center mb-2">
-                <h6 className='font-semibold text-5xl'>{analytics?.total_unverified_students || 0}</h6>
-                <button className='p-1 px-2 text-sm text-white'>
-                  View
-                </button>
-              </div>
-            </div>
+      <div className="p-4 pb-12 bg-white rounded-md">
+        <div className='mb-8'>
+          <h3 className="mb-8">
+            Scan Students
+          </h3>
+          <div className="flex items-center justify-center h-64 py-10 border-2 border-dashed rounded-md md:h-96 border-primary">
+            {/* <Image src={ScanImage} alt='Scan' className='w-full h-full' /> */}
+          <div className='flex h-72 w-72'>
+            
+            {
+              !imgSrc ? (
+                <>
+                  {
+                    scan ? 
+                        <Webcam
+                            audio={false}
+                            ref={webcamRef}
+                            screenshotFormat="image/jpeg"
+                            className='w-full h-full'
+                        />
+                     :
+                    <Image
+                      src={ScanImage}
+                      width={100}
+                      height={100}
+                      alt="Scan"
+                      className='w-full h-full'
+                  />
+                  }
+                </>
+              )
+            :
+                <Image
+                    src={imgSrc}
+                    width={640}
+                    height={480}
+                    alt="Picture of the user"
+                    className='w-full h-full'
+                />
+            } 
+          </div>
+          </div>
+          <button onClick={capture} className='flex items-center justify-center gap-2 p-2 pl-5 pr-6 mx-auto mt-12 text-sm text-white bg-primary'>
+            Click to Scan
+          </button>
         </div>
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-8 mb-8 text-sm">
-          <span className='font-semibold'>Registered Students</span>
-          <div className="flex flex-col md:flex-row md:items-center gap-4">
-            <input type="text" name="search" id="search" placeholder='Type here to search' className='border border-gray-300 px-4 text-sm bg-[#F7F7F7]' />
-            <select name="filter" id="filter" className='text-sm py-2 sm:w-fit'>
-              <option defaultChecked value="">Filter By</option>
-              <option value="name">Name</option>
-              <option value="level">Level</option>
-              <option value="status">Status</option>
-            </select>
-          </div>         
-        </div>
-        <div className='text-[#143E6C]'>
-          <StaffTable data={students?.results || []} columns={columns} />
+        <div>
+          <h3 className="mb-8 text-lg font-semibold">
+            Steps on how to scan properly
+          </h3>
+          <div className="grid gap-10">
+            {[0,1,2,3,4,5,6].map((_, i) => (
+            <div key={i} className='flex items-center gap-2 text-xs'>
+              <div className="w-3 h-3 bg-gray-200 rounded-full" />
+              <p className=''>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil, voluptatum.</p>
+            </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>
   )
 }
 
-export default StaffDashboard
+export default StaffHome

@@ -23,13 +23,17 @@ const StaffNav = ({ }) => {
   return (
     <div className='no-scrollbar hidden sm:flex flex-col justify-between grad-to-bottom text-black max-h-screen overflow-hidden h-screen min-w-[240px] w-60 pb-4'>
         <div>
-            <div className='w-full flex flex-col items-center text-center gap-5 border-b border-white/10 pt-4'>
+            <div className='flex flex-col items-center w-full gap-5 pt-4 text-center border-b border-white/10'>
                 <Link href={"/"}>
-                    <Image src={Logo} className='w-full h-12 md:h-12 bg-white' alt='' />
+                    <Image src={Logo} className='w-full h-12 bg-white md:h-12' alt='' />
                 </Link>
             </div>
-            <div className='flex flex-col gap-2 pb-2 text-black/70 pt-12'>
-                <Link className={`py-2.5 pl-6 text-sm flex items-center gap-2 ${(pathname === '/admin') && 'text-black'}`} href="/staff/scan">
+            <div className='flex flex-col gap-2 pt-12 pb-2 text-black/70'>
+                <Link className={`py-2.5 pl-6 text-sm flex items-center gap-2 ${(pathname === '/admin') && 'text-black'}`} href="/staff">
+                    <MdOutlineDashboardCustomize size={"1.3rem"} />
+                    Home
+                </Link>
+                <Link className={`py-2.5 pl-6 text-sm flex items-center gap-2 ${(pathname?.includes('students')) && 'text-black'}`} href="/staff/student">
                     <MdOutlineDashboardCustomize size={"1.3rem"} />
                     Students
                 </Link>

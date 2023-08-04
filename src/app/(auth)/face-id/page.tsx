@@ -10,6 +10,7 @@ import { apiRegisterFace } from '@/services/AuthService'
 import usePost from '@/hooks/usePost'
 import { useRouter } from 'next/navigation'
 import Loader from '@/components/Loader'
+import { toast } from 'react-toastify'
 
 const initialState: IRegisterFace = {
   email: '',
@@ -28,6 +29,10 @@ const FaceId = () => {
     onSuccess: (data) => {
       console.log('data', data)
       router.push('/')
+    },
+    onError: (error: any) => {
+      console.log({error})
+        toast.error(error?.response?.data?.errors?.message || "An error occured")
     }
   })
 

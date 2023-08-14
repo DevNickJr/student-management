@@ -26,16 +26,16 @@ const SideNav = ({ }) => {
                 </Link>
             </div>
             <div className='flex flex-col gap-2 pt-12 pb-2 text-black/70'>
-                <Link className={`py-2.5 pl-6 text-sm flex items-center gap-2 ${(pathname === '/admin') && 'text-black'}`} href="/dashboard">
+                <Link className={`py-2.5 pl-6 text-sm flex items-center gap-2 ${(pathname === '/dashboard') && 'text-black'}`} href="/dashboard">
                     <MdOutlineDashboardCustomize size={"1.3rem"} />
                     Dashboard
                 </Link>
-                <Link className={`py-2.5 pl-6 text-sm flex items-center gap-2 ${pathname?.includes("winners") && 'text-black'}`} href={"/courses"}>
+                <Link className={`py-2.5 pl-6 text-sm flex items-center gap-2 ${pathname?.includes("courses") && 'text-black'}`} href={"/courses"}>
                     {/* <GiCrownedSkull size={"1.3rem"} /> */}
                     <Image src={CourseImg} className='w-[18px] h-[18px] bg-white' alt='' />
                     Courses
                 </Link>
-                <Link className={`py-2.5 pl-6 text-sm flex items-center gap-2 ${pathname?.includes("advisory") && 'text-black'}`} href={"/profile"}>
+                <Link className={`py-2.5 pl-6 text-sm flex items-center gap-2 ${pathname?.includes("profile") && 'text-black'}`} href={"/profile"}>
                     <Image src={SettingsImg} className='w-[18px] h-[18px] bg-white' alt='' />
                     {/* <RiTeamLine size={"1.3rem"} /> */}
                     Settings

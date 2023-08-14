@@ -14,6 +14,6 @@ export const apiGetAnalytics = () => {
     return BaseService.get(`${servicePrefix}/students/analytics/`)
 }
 
-export const apiGetStudents = (query: string) => {
-    return BaseService.get(`${servicePrefix}/students/${query || ''}`)
+export const apiGetStudents = ({query}: {query: string}) => {
+    return BaseService.get(`${servicePrefix}/students/?${query || ''}`)
 }

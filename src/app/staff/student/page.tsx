@@ -2,23 +2,39 @@
 import StaffTable from '@/components/StaffTable'
 import useFetch from '@/hooks/useFetch'
 import { IProfile, ITableColumn } from '@/interfaces'
-import { apiGetUser } from '@/services/AuthService'
 import { apiGetStudents, apiGetAnalytics } from '@/services/StaffService'
-import Link from 'next/link'
 import React from 'react'
-import { MdAdd } from 'react-icons/md'
 
 
 const StudentStaff = () => {
+  const [search, setSearch] = React.useState('')
+  const [timer, setTimer] = React.useState<NodeJS.Timeout | null>(null)
+  
   const { data: students, error, isLoading, isFetching, remove, refetch, fetchStatus } = useFetch({
     api: apiGetStudents, 
     key: ['staff', 'students'],
-    select: ((d: any) => d?.data)
+    select: ((d: any) => d?.data),
+    param: { query: `name=${search}` }
   })
+
   const { data: analytics } = useFetch({
     api: apiGetAnalytics, 
     key: ['analytics'],
   })
+
+  React.useEffect(() => {
+    if (timer) {
+      // console.log(timer, 'clearing timer')
+      clearTimeout(timer)
+    }
+    // if (!search) return
+    const time = setTimeout(() => {
+      // console.log('refteching use')
+      refetch()
+    }, 3000)
+    setTimer(time)
+    return () => clearTimeout(time)
+  }, [search, refetch])
 
   // console.log({ analytics })
 
@@ -84,7 +100,7 @@ const StudentStaff = () => {
         <div className="flex flex-col justify-between gap-8 mb-8 text-sm md:flex-row md:items-center">
           <span className='font-semibold'>Registered Students</span>
           <div className="flex flex-col gap-4 md:flex-row md:items-center">
-            <input type="text" name="search" id="search" placeholder='Type here to search' className='border border-gray-300 px-4 text-sm bg-[#F7F7F7]' />
+            <input value={search} onChange={(e) => setSearch(e.target.value)} type="text" name="search" id="search" placeholder='Type here to search' className='border border-gray-300 px-4 text-sm bg-[#F7F7F7]' />
             <select name="filter" id="filter" className='py-2 text-sm sm:w-fit'>
               <option defaultChecked value="">Filter By</option>
               <option value="name">Name</option>

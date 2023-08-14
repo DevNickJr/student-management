@@ -41,6 +41,7 @@ const StaffHome = () => {
     },
   })
 
+  
 
   const capture = React.useCallback(async () => {
     if (!scan) {

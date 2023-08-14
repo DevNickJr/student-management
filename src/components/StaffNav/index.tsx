@@ -2,19 +2,16 @@
 import React from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { MdOutlineDashboardCustomize, MdLogout, MdOutlineFeedback } from 'react-icons/md'
-import { RiTeamLine, RiQuestionnaireLine } from 'react-icons/ri'
-import { GiCrownedSkull } from 'react-icons/gi'
-import { BsFillPersonFill } from 'react-icons/bs'
-import { TiNews } from 'react-icons/ti'
-import { FaAward } from 'react-icons/fa'
-import { AiTwotoneGold, AiOutlineHome, AiOutlineCopyrightCircle } from 'react-icons/ai'
+import { MdOutlineDashboardCustomize, MdLogout } from 'react-icons/md'
+import { AiOutlineCopyrightCircle } from 'react-icons/ai'
+import { PiStudentLight } from 'react-icons/pi'
 import Logo from "@/assets/logo.svg"
 import Image from 'next/image'
-import { useSession, signIn, signOut } from "next-auth/react"
+import { signOut } from "next-auth/react"
+import CourseImg from "@/assets/course.svg"
+import SettingsImg from "@/assets/settings.svg"
 
 // import { useSession, signIn, signOut } from "next-auth/react"
-
 
 const StaffNav = ({ }) => {
     const pathname = usePathname();
@@ -34,15 +31,15 @@ const StaffNav = ({ }) => {
                     Home
                 </Link>
                 <Link className={`py-2.5 pl-6 text-sm flex items-center gap-2 ${(pathname?.includes('students')) && 'text-black'}`} href="/staff/student">
-                    <MdOutlineDashboardCustomize size={"1.3rem"} />
+                    <PiStudentLight size={"1.3rem"} />
                     Students
                 </Link>
                 <Link className={`py-2.5 pl-6 text-sm flex items-center gap-2 ${pathname?.includes("winners") && 'text-black'}`} href={"/staff/courses"}>
-                    <GiCrownedSkull size={"1.3rem"} />
+                    <Image src={CourseImg} className='w-[18px] h-[18px] bg-white' alt='' />
                     Courses
                 </Link>
                 <Link className={`py-2.5 pl-6 text-sm flex items-center gap-2 ${pathname?.includes("advisory") && 'text-black'}`} href={"/staff/profile"}>
-                    <RiTeamLine size={"1.3rem"} />
+                    <Image src={SettingsImg} className='w-[18px] h-[18px] bg-white' alt='' />
                     Settings
                 </Link>
             </div>

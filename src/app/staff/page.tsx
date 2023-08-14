@@ -9,7 +9,7 @@ import usePost from '@/hooks/usePost'
 import { toast } from 'react-toastify'
 import Webcam from "react-webcam";
 import Loader from '@/components/Loader'
-import Bio from './bio/page'
+import Bio from './bio/Bio'
 // import { useRouter } from 'next/navigation'
 
 const initialState: IVerifiedFace = {

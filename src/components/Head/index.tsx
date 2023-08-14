@@ -17,7 +17,6 @@ const Head = () => {
         <div className='flex items-center justify-between gap-2'>
           {/* <div className="w-4 h-4 bg-gray-200 rounded-full" /> */}
           <div className='flex items-center gap-2 text-xs'>
-              {/* <div className="w-6 h-6 rounded-full bg-primary/30" /> */}
               <Image src={data?.user.userDetails.profile_picture_url || ''} className="w-6 h-6 rounded-full" width={100} height={100} alt='Profile'  />
               <div className="flex-col hidden gap-1 md:flex">
                 <div className='text-sm font-semibold'>{data?.user?.userDetails?.last_name} {data?.user?.userDetails?.first_name}</div>

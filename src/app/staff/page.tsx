@@ -10,6 +10,8 @@ import { toast } from 'react-toastify'
 import Webcam from "react-webcam";
 import Loader from '@/components/Loader'
 import Bio from './bio/Bio'
+import { useSession } from 'next-auth/react'
+
 // import { useRouter } from 'next/navigation'
 
 const initialState: IVerifiedFace = {
@@ -19,6 +21,7 @@ const initialState: IVerifiedFace = {
 
 
 const StaffHome = () => {
+  const { data } = useSession()
   const [modalOpen, setModalOpen] = React.useState(false)
   const [bioOpen, setBioOpen] = React.useState(false)
   const [scan, setScan] = React.useState(false)
@@ -81,7 +84,7 @@ const StaffHome = () => {
       {verifyFaceMutation?.isLoading && <Loader />}
       <div className="flex items-center justify-between gap-4 mb-12">
         <div className="flex flex-col gap-2">
-          <h1 className='text-2xl font-bold'>Welcome Back, Jonathan</h1>
+          <h1 className='text-2xl font-bold'>Welcome Back, {data?.user?.userDetails?.first_name}</h1>
           <p className='text-sm'>You can easily verify students by scanning them</p>
         </div>
         {/* <button className='flex items-center gap-2 p-2 pr-3 text-sm text-white bg-primary'>

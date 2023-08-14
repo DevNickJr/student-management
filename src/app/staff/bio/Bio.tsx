@@ -6,8 +6,8 @@ import { apiGetUser } from '@/services/AuthService'
 import { MdAdd, MdChevronLeft } from 'react-icons/md'
 import useFetch from '@/hooks/useFetch'
 
-const Bio = ({ closeBio, data }: { closeBio: any, data: any }) => {
-  const { data: profile, error, isLoading, isFetching, remove, refetch, fetchStatus } = useFetch<IProfile>({api: apiGetUser, requireAuth: true, key: ['user', 'profile'] })
+const Bio = ({ closeBio, data }: { closeBio: () => void, data: any }) => {
+  const { data: profile, error, isLoading, isFetching, fetchStatus } = useFetch<IProfile>({api: apiGetUser, requireAuth: true, key: ['user', 'profile'] })
 
   console.log({data})
 

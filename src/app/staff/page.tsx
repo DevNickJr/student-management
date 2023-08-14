@@ -101,7 +101,7 @@ const StaffHome = () => {
     console.log('formdata', file)
 
     verifyFaceMutation.mutate(formData)
-  }, [webcamRef, verifyFaceMutation, scan, imgSrc]);
+  }, [webcamRef, verifyFaceMutation, scan, imgSrc, level]);
 
   const reset = () => {
     setImgSrc('')
@@ -140,48 +140,48 @@ const StaffHome = () => {
               <option value="400">600</option>
             </select>
           </div>
-          <div className="flex items-center justify-center h-64 py-10 border-2 border-dashed rounded-md md:h-96 border-primary">
+          <div className="flex items-center justify-center py-10 border-2 border-dashed rounded-md h-72 md:h-96 border-primary">
             {/* <Image src={ScanImage} alt='Scan' className='w-full h-full' /> */}
-          <div className='flex h-72 w-72'>
-            
-            {
-              !imgSrc ? (
-                <>
-                  {
-                    scan ? 
-                        <Webcam
-                            audio={false}
-                            ref={webcamRef}
-                            screenshotFormat="image/jpeg"
-                            className='w-full h-full'
-                            videoConstraints={videoConstraints}
-                            onUserMediaError={(e) => {
-                              console.log('error', e)
-                              setFacingMode('user')
-                              // setScan(false)
-                            }}
-                        />
-                     :
-                    <Image
-                      src={ScanImage}
-                      width={100}
-                      height={100}
-                      alt="Scan"
+            <div className='flex h-72 w-72'>
+              
+              {
+                !imgSrc ? (
+                  <>
+                    {
+                      scan ? 
+                          <Webcam
+                              audio={false}
+                              ref={webcamRef}
+                              screenshotFormat="image/jpeg"
+                              className='w-full h-full'
+                              videoConstraints={videoConstraints}
+                              onUserMediaError={(e) => {
+                                console.log('error', e)
+                                setFacingMode('user')
+                                // setScan(false)
+                              }}
+                          />
+                      :
+                      <Image
+                        src={ScanImage}
+                        width={100}
+                        height={100}
+                        alt="Scan"
+                        className='w-full h-full'
+                    />
+                    }
+                  </>
+                )
+              :
+                  <Image
+                      src={imgSrc}
+                      width={640}
+                      height={480}
+                      alt="Picture of the user"
                       className='w-full h-full'
                   />
-                  }
-                </>
-              )
-            :
-                <Image
-                    src={imgSrc}
-                    width={640}
-                    height={480}
-                    alt="Picture of the user"
-                    className='w-full h-full'
-                />
-            } 
-          </div>
+              } 
+            </div>
           </div>
           {
             !imgSrc ?

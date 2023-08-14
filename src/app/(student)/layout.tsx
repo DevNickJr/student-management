@@ -4,8 +4,7 @@ import SideNav from '@/components/SideNav'
 import Head from '@/components/Head'
 import AuthHOC from '@/HOC/AuthHOC'
 
-const StudentLayout = ({ children }: { children: React.ReactNode }) => {
-  
+const StudentLayout = ({ children }: { children: React.ReactNode }) => { 
 
   return (
       <div className='flex bg-footer-bg overflow-hidden h-screen w-full'>

@@ -64,22 +64,45 @@ export const authOptions: NextAuthOptions = {
                 return null;
             }
 
-            const res = await apiLogin({
-                email: credentials.email,
-                password: credentials.password
-            })
+            try {         
+              const res = await apiLogin({
+                  email: credentials.email,
+                  password: credentials.password
+              })
+              console.log('failed')
 
-            console.log({res})
+              // console.log( { res } )
+  
+              const user: User = res.data
 
-            const user: User = res.data
 
-            // console.log({ user })
+  
+  
+              if (!user) {
+                throw new Error('User not found');
+              }
 
-            if (!user) {
-              throw new Error('User not found');
-          }
+              return user
 
-          return user;
+            } catch (error: any) {
+              // console.log({error, message: "next-auth", data: error.data, res222: error?.response?.data })
+              // return error?.response?.data
+              throw new Error(error?.response?.data?.message || 'Something went wrong');
+
+            }
+
+
+            // console.log('failed')
+
+            // // console.log( { res } )
+
+            // const user: User = res.data
+
+
+            // if (!user) {
+            //   throw new Error('User not found');
+
+          // return user;
 
       },
     }),

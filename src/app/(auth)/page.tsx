@@ -35,6 +35,7 @@ const { mutate } = usePost<IUserLogin, any>(
         router.push('/staff')
     },
     onError: (error: any) => {
+      console.log({error})
         toast.error(error?.message || "An error occured")
     }
   }
@@ -60,12 +61,24 @@ const { mutate } = usePost<IUserLogin, any>(
 
         console.log("res", res)
 
+        if (res && res.error == 'Please verify your Face to continue') {
+
+          sessionStorage.setItem('email', user.email)
+          toast.info('Verify your face to continue')
+          return router.push('/face-id', {
+            as: 'sss',
+            package: 'dssd',
+            query: {
+              nes: 'dsd'
+            }
+          })
+        }
+
         if (!res?.error) {
           if (active === 'student') {
             return router.push('/dashboard')
           }
           return router.push('/staff')
-          // return router.push('/dashboard')
         }
         
         throw new Error(res?.error)
@@ -79,7 +92,7 @@ const { mutate } = usePost<IUserLogin, any>(
   return (
     <div className='md:pl-24'>
       {loading && <Loader />}
-      <div className="flex justify-center gap-16 items-center mb-12 text-lg">
+      <div className="flex items-center justify-center gap-16 mb-12 text-lg">
           <div onClick={() => setActive('student')} className={`py-2 px-4 cursor-pointer ${active==='student' && 'border-b-[3px] border-primary text-primary font-semibold'}`}>Students</div>
           <div onClick={() => setActive('staff')} className={`py-2 px-4 cursor-pointer ${active==='staff' && 'border-b-[3px] border-primary text-primary font-semibold'}`}>Staff</div>
       </div>
@@ -91,17 +104,17 @@ const { mutate } = usePost<IUserLogin, any>(
         <div className='grid gap-10 mb-2'>
             <div className='flex flex-col gap-2 text-xs'>
               <label htmlFor="name">Email Address</label>
-              <input  value={user?.email} onChange={(e) => dispatch({ type: "email", payload: e.target.value})} type="text" name="name" id="name" className='border p-3 placeholder:text-sm rounded-md' placeholder='Enter Email Address' />
+              <input  value={user?.email} onChange={(e) => dispatch({ type: "email", payload: e.target.value})} type="text" name="name" id="name" className='p-3 border rounded-md placeholder:text-sm' placeholder='Enter Email Address' />
             </div>
             <div className='flex flex-col gap-2 text-xs'>
               <label htmlFor="name">Password</label>
-              <input  value={user?.password} onChange={(e) => dispatch({ type: "password", payload: e.target.value})} type="text" name="password" id="password" className='border p-3 placeholder:text-sm rounded-md' placeholder='Enter Password' />
+              <input  value={user?.password} onChange={(e) => dispatch({ type: "password", payload: e.target.value})} type="text" name="password" id="password" className='p-3 border rounded-md placeholder:text-sm' placeholder='Enter Password' />
             </div>
         </div>
-        <Link href='/forgot-password' className='text-primary my-2 text-sm font-semibold'>
+        <Link href='/forgot-password' className='my-2 text-sm font-semibold text-primary'>
             Forgot Password?
         </Link>
-        <button type='submit' className='mt-12 flex items-center justify-center gap-2 bg-primary p-4 pl-5 pr-6 text-sm text-white rounded-md w-full font-bold'>
+        <button type='submit' className='flex items-center justify-center w-full gap-2 p-4 pl-5 pr-6 mt-12 text-sm font-bold text-white rounded-md bg-primary'>
             Sign In
         </button>
       </form>

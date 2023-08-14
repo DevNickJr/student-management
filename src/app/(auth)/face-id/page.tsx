@@ -75,6 +75,8 @@ const FaceId = () => {
       return
     }
 
+    console.log('email', sessionStorage.getItem('email'), file)
+
     formData.append('email', sessionStorage.getItem('email')!)
 
     formData.append('image', file)
@@ -83,9 +85,9 @@ const FaceId = () => {
   }  
 
   return (
-    <div className='md:pl-24 py-4'>
+    <div className='py-4 md:pl-24'>
       {registerFaceMutation?.isLoading && <Loader />}
-      <div className="flex justify-center gap-16 items-center mb-12 text-lg">
+      <div className="flex items-center justify-center gap-16 mb-12 text-lg">
           <div onClick={() => setActive('student')} className={`py-2 px-4 cursor-pointer ${active==='student' && 'border-b-[3px] border-primary text-primary font-semibold'}`}>Students</div>
           <div onClick={() => setActive('staff')} className={`py-2 px-4 cursor-pointer ${active==='staff' && 'border-b-[3px] border-primary text-primary font-semibold'}`}>Staff</div>
       </div>
@@ -94,8 +96,8 @@ const FaceId = () => {
           <p className='text-sm'>Scan your face to register it on the Database</p>
       </div>
       <form className="max-w-lg mx-auto">
-        <div className="flex justify-center items-center h-48 md:h-68 border-2 border-primary border-dashed rounded-md relative">
-          <div className='h-48 w-48 flex'>
+        <div className="relative flex items-center justify-center h-48 border-2 border-dashed rounded-md md:h-68 border-primary">
+          <div className='flex w-48 h-48'>
             {
               !imgSrc ? (
                 <>
@@ -132,11 +134,11 @@ const FaceId = () => {
         <>
           {
             !imgSrc ? (
-            <div onClick={capture} className='mt-12 flex items-center justify-center gap-2 bg-primary p-4 pl-5 pr-6 text-sm text-white rounded-md w-full font-bold cursor-pointer'>
+            <div onClick={capture} className='flex items-center justify-center w-full gap-2 p-4 pl-5 pr-6 mt-12 text-sm font-bold text-white rounded-md cursor-pointer bg-primary'>
               {!scan ? 'Scan' : 'Capture Image'}
             </div> )
           :
-          <div onClick={registerFace} className='mt-12 flex items-center justify-center gap-2 bg-primary p-4 pl-5 pr-6 text-sm text-white rounded-md w-full font-bold cursor-pointer'>
+          <div onClick={registerFace} className='flex items-center justify-center w-full gap-2 p-4 pl-5 pr-6 mt-12 text-sm font-bold text-white rounded-md cursor-pointer bg-primary'>
             Proceed
           </div>
           }

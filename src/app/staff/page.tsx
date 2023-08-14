@@ -57,9 +57,13 @@ const StaffHome = () => {
       setDevices(mediaDevices.filter(({ kind }) => kind === "videoinput")),
     [setDevices]
   );
-    const de = navigator.mediaDevices
+
   React.useEffect(
     () => {
+      if (!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) {
+        console.log("enumerateDevices() not supported.");
+        return;
+      }
       navigator.mediaDevices.enumerateDevices().then(handleDevices);
     },
     [handleDevices]

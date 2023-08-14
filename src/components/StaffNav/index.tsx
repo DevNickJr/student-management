@@ -15,6 +15,8 @@ import SettingsImg from "@/assets/settings.svg"
 
 const StaffNav = ({ }) => {
     const pathname = usePathname();
+
+    
     // console.log({pathname})
 
   return (

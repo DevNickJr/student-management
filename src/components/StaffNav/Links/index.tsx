@@ -6,10 +6,17 @@ import Button  from '../../Button'
 import { MdLogout, MdOutlineClose } from 'react-icons/md'
 import { BiMenu } from 'react-icons/bi'
 import { useSession, signIn, signOut } from "next-auth/react"
+import { usePathname } from 'next/navigation'
+
 
 
 
 const StaffNavMobile = ({ isOpen, setIsOpen }: { isOpen: boolean, setIsOpen: React.Dispatch<React.SetStateAction<boolean>> }) => {
+  const pathname = usePathname();
+
+  React.useEffect(() => {
+    setIsOpen(false)
+  }, [pathname, setIsOpen])
 
   return (
     <div className={`md:hidden shadow fixed top-0 left-0 w-5/6 min-h-screen h-screen bg-white text-black px-4  py-2 md:px-10 z-30 text-sm ${isOpen ? "translate-x-0" : "-translate-x-full"} transition-all duration-300`}>

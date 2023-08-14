@@ -22,6 +22,7 @@ const initialState: IVerifiedFace = {
 
 const StaffHome = () => {
   const [facingMode, setFacingMode] = React.useState<'user' | 'environment'>('environment')
+  const [level, setLevel] = React.useState<string>('200')
   const videoConstraints = {
     // width: 1280,
     // height: 720,
@@ -35,6 +36,7 @@ const StaffHome = () => {
   const [imgSrc, setImgSrc] = React.useState<string>('');
   const verifyFaceMutation = usePost(apiVerifyFace, {
     requireAuth: true,
+    showErrorMessage: false,
     onSuccess: (data) => {
       toast.success(data?.message || 'Face verified successfully')
       setBioOpen(true)
@@ -93,7 +95,7 @@ const StaffHome = () => {
     const file = new File([blob], 'face2', { type: 'image/png' });
 
     const formData = new FormData()
-    formData.append('level', '300')
+    formData.append('level', level)
     formData.append('image', file)
 
     console.log('formdata', file)
@@ -123,9 +125,21 @@ const StaffHome = () => {
       </div>
       <div className="p-4 pb-12 bg-white rounded-md">
         <div className='mb-8'>
-          <h3 className="mb-8">
+          <h3 className="mb-4">
             Scan Students
           </h3>
+          { /* select level */ }
+          <div className="flex items-center gap-2 mb-4 text-sm">
+            <p className='text-sm'>Select Session: </p>
+            <select onChange={(e) => setLevel(e.target.value)} className='min-w-[100px] border border-gray-300 rounded-md w-fit text-sm'>
+              <option value="100">100</option>
+              <option value="200">200</option>
+              <option value="300">300</option>
+              <option value="400">400</option>
+              <option value="400">500</option>
+              <option value="400">600</option>
+            </select>
+          </div>
           <div className="flex items-center justify-center h-64 py-10 border-2 border-dashed rounded-md md:h-96 border-primary">
             {/* <Image src={ScanImage} alt='Scan' className='w-full h-full' /> */}
           <div className='flex h-72 w-72'>

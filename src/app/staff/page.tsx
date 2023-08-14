@@ -21,6 +21,12 @@ const initialState: IVerifiedFace = {
 
 
 const StaffHome = () => {
+  const [facingMode, setFacingMode] = React.useState<'user' | 'environment'>('environment')
+  const videoConstraints = {
+    // width: 1280,
+    // height: 720,
+    facingMode: { exact: facingMode }
+  };
   const { data } = useSession()
   const [modalOpen, setModalOpen] = React.useState(false)
   const [bioOpen, setBioOpen] = React.useState(false)
@@ -40,6 +46,24 @@ const StaffHome = () => {
       // router.push('/staff/scan/verify')
     },
   })
+
+  const [deviceId, setDeviceId] = React.useState({});
+  const [devices, setDevices] = React.useState<MediaDeviceInfo[]>([]);
+
+  console.log({devices})
+
+  const handleDevices = React.useCallback(
+    (mediaDevices: MediaDeviceInfo[]) =>
+      setDevices(mediaDevices.filter(({ kind }) => kind === "videoinput")),
+    [setDevices]
+  );
+    const de = navigator.mediaDevices
+  React.useEffect(
+    () => {
+      navigator.mediaDevices.enumerateDevices().then(handleDevices);
+    },
+    [handleDevices]
+  );
 
   
 
@@ -112,6 +136,12 @@ const StaffHome = () => {
                             ref={webcamRef}
                             screenshotFormat="image/jpeg"
                             className='w-full h-full'
+                            videoConstraints={videoConstraints}
+                            onUserMediaError={(e) => {
+                              console.log('error', e)
+                              setFacingMode('user')
+                              // setScan(false)
+                            }}
                         />
                      :
                     <Image

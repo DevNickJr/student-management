@@ -101,7 +101,7 @@ const handleRegister = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
   return (
     <div className='md:pl-24'>
       {registerMutation?.isLoading && <Loader />}
-      <div className="flex justify-center gap-16 items-center mb-8 text-lg">
+      <div className="flex items-center justify-center gap-16 mb-8 text-lg">
           <div onClick={() => setActive('student')} className={`py-2 px-4 cursor-pointer ${active==='student' && 'border-b-[3px] border-primary text-primary font-semibold'}`}>Students</div>
           <div onClick={() => setActive('staff')} className={`py-2 px-4 cursor-pointer ${active==='staff' && 'border-b-[3px] border-primary text-primary font-semibold'}`}>Staff</div>
       </div>
@@ -115,21 +115,21 @@ const handleRegister = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
             <form className='grid gap-4' onSubmit={handleNext}>
               <div className='flex flex-col gap-2 text-xs'>
                 <label htmlFor="first_name">First Name</label>
-                <input required value={user?.first_name} onChange={(e) => dispatch({ type: "first_name", payload: e.target.value})} type='text' name="first_name" id="first_name" className='border p-3 placeholder:text-sm rounded-md' placeholder='Enter First Name' />
+                <input required value={user?.first_name} onChange={(e) => dispatch({ type: "first_name", payload: e.target.value})} type='text' name="first_name" id="first_name" className='p-3 border rounded-md placeholder:text-sm' placeholder='Enter First Name' />
               </div>
               <div className='flex flex-col gap-2 text-xs'>
                 <label htmlFor="last_name">Last Name</label>
-                <input required value={user?.last_name} onChange={(e) => dispatch({ type: "last_name", payload: e.target.value})}  type="text" name="last_name" id="last_name" className='border p-3 placeholder:text-sm rounded-md' placeholder='Enter Last Name' />
+                <input required value={user?.last_name} onChange={(e) => dispatch({ type: "last_name", payload: e.target.value})}  type="text" name="last_name" id="last_name" className='p-3 border rounded-md placeholder:text-sm' placeholder='Enter Last Name' />
               </div>
               <div className='flex flex-col gap-2 text-xs'>
                 <label htmlFor="email">Email Address</label>
-                <input required value={user?.email} onChange={(e) => dispatch({ type: "email", payload: e.target.value})}  type="email" name="email" id="email" className='border p-3 placeholder:text-sm rounded-md' placeholder='Enter Email Address' />
+                <input required value={user?.email} onChange={(e) => dispatch({ type: "email", payload: e.target.value})}  type="email" name="email" id="email" className='p-3 border rounded-md placeholder:text-sm' placeholder='Enter Email Address' />
               </div>
               <div className='flex flex-col gap-2 text-xs'>
                 <label htmlFor="phone">Phone Number</label>
-                <input required value={user?.phone} onChange={(e) => dispatch({ type: "phone", payload: e.target.value})}  type="tel" name="phone" id="phone" className='border p-3 placeholder:text-sm rounded-md' placeholder='Enter Phone number' />
+                <input required value={user?.phone} onChange={(e) => dispatch({ type: "phone", payload: e.target.value})}  type="tel" name="phone" id="phone" className='p-3 border rounded-md placeholder:text-sm' placeholder='Enter Phone number' />
               </div>
-              <button type='submit' className='mt-8 flex items-center justify-center gap-2 bg-primary p-4 pl-5 pr-6 text-sm text-white rounded-md w-full font-bold'>
+              <button type='submit' className='flex items-center justify-center w-full gap-2 p-4 pl-5 pr-6 mt-8 text-sm font-bold text-white rounded-md bg-primary'>
                 Proceed
               </button>
             </form>
@@ -138,26 +138,27 @@ const handleRegister = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
             <form className='grid gap-4' onSubmit={handleRegister}>
               <div className='flex flex-col gap-2 text-xs'>
                 <label htmlFor="level">Level</label>
-                <input required value={user?.level} onChange={(e) => dispatch({ type: "level", payload: e.target.value})} type='text' name="level" id="level" className='border p-3 placeholder:text-sm rounded-md' placeholder='Enter Level' />
+                <input required value={user?.level} onChange={(e) => dispatch({ type: "level", payload: e.target.value})} type='text' name="level" id="level" className='p-3 border rounded-md placeholder:text-sm' placeholder='Enter Level' />
               </div>
               <div className='flex flex-col gap-2 text-xs'>
                 <label htmlFor="matric_no">Mat No.</label>
-                <input required value={user?.matric_no} onChange={(e) => dispatch({ type: "matric_no", payload: e.target.value})}  type="text" name="matric_no" id="matric_no" className='border p-3 placeholder:text-sm rounded-md' placeholder='Enter Mat Number' />
+                <input required value={user?.matric_no} onChange={(e) => dispatch({ type: "matric_no", payload: e.target.value})}  type="text" name="matric_no" id="matric_no" className='p-3 border rounded-md placeholder:text-sm' placeholder='Enter Mat Number' />
               </div>
               <div className='flex flex-col gap-2 text-xs'>
                 <label htmlFor="password">Password</label>
-                <input required value={user?.password} onChange={(e) => dispatch({ type: "password", payload: e.target.value})}  type="password" name="password" id="password" className='border p-3 placeholder:text-sm rounded-md' placeholder='Enter Password' />
+                <input required value={user?.password} onChange={(e) => dispatch({ type: "password", payload: e.target.value})}  type="password" name="password" id="password" className='p-3 border rounded-md placeholder:text-sm' placeholder='Enter Password' />
               </div>
               <div className='flex flex-col gap-2 text-xs'>
                 <label htmlFor="confirm_password">Confirm Password</label>
-                <input required value={user?.confirm_password} onChange={(e) => dispatch({ type: "confirm_password", payload: e.target.value})}  type="password" name="confirm_password" id="confirm_password" className='border p-3 placeholder:text-sm rounded-md' placeholder='Confrim Password' />
+                <input required value={user?.confirm_password} onChange={(e) => dispatch({ type: "confirm_password", payload: e.target.value})}  type="password" name="confirm_password" id="confirm_password" className='p-3 border rounded-md placeholder:text-sm' placeholder='Confrim Password' />
               </div>
-              <button type='submit' className='mt-8 flex items-center justify-center gap-2 bg-primary p-4 pl-5 pr-6 text-sm text-white rounded-md w-full font-bold'>
+              <button type='submit' className='flex items-center justify-center w-full gap-2 p-4 pl-5 pr-6 mt-8 text-sm font-bold text-white rounded-md bg-primary'>
                 Proceed
               </button>
             </form>
           )}
         </div>
+        <p className='mt-3 text-sm text-center'>Already have an account? <Link href='/' className='text-primary'>Sign In</Link></p>
         
       </div>
     </div>

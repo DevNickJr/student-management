@@ -116,6 +116,8 @@ const { mutate } = usePost<IUserLogin, any>(
         <button type='submit' className='flex items-center justify-center w-full gap-2 p-4 pl-5 pr-6 mt-12 text-sm font-bold text-white rounded-md bg-primary'>
             Sign In
         </button>
+        <p className='mt-3 text-sm text-center'>Don&apos;t have an account? <Link href='/register' className='text-primary'>Sign Up</Link></p>
+
       </form>
     </div>
   )

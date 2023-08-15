@@ -20,11 +20,19 @@ const initialState: IRegisterFace = {
 
 const FaceId = () => {
   const [active, setActive] = React.useState<'student' | 'staff'>('student')
+  const [facingMode, setFacingMode] = React.useState<'user' | 'environment'>('user')
   const [scan, setScan] = React.useState(false)
   const [modalOpen, setModalOpen] = React.useState(false)
   const router = useRouter()
   const webcamRef = React.useRef<Webcam>(null);
   const [imgSrc, setImgSrc] = React.useState<string>('');
+
+  const videoConstraints = {
+    // width: 1280,
+    // height: 720,
+    facingMode: { exact: facingMode }
+  };
+
   const registerFaceMutation = usePost(apiRegisterFace, {
     onSuccess: (data) => {
       console.log('data', data)
@@ -84,6 +92,15 @@ const FaceId = () => {
     registerFaceMutation.mutate(formData)
   }  
 
+  const changeCamera = () => {
+    console.log('change camera')
+    if (facingMode === 'user') {
+      setFacingMode('environment')
+    } else {
+      setFacingMode('user')
+    }
+  }
+
   return (
     <div className='py-4 md:pl-24'>
       {registerFaceMutation?.isLoading && <Loader />}
@@ -96,6 +113,12 @@ const FaceId = () => {
           <p className='text-sm'>Scan your face to register it on the Database</p>
       </div>
       <form className="max-w-lg mx-auto">
+        <div className="flex justify-end">
+          {/* change camera */}
+          <div onClick={changeCamera} className='flex items-center justify-center p-2 text-xs font-semibold text-white cursor-pointer bg-primary'>
+            Switch Camera
+          </div>
+        </div>
         <div className="relative flex items-center justify-center h-48 border-2 border-dashed rounded-md md:h-68 border-primary">
           <div className='flex w-48 h-48'>
             {
@@ -108,6 +131,12 @@ const FaceId = () => {
                           ref={webcamRef}
                           screenshotFormat="image/jpeg"
                           className='w-full h-full'
+                          videoConstraints={videoConstraints}
+                          onUserMediaError={(e) => {
+                            console.log('error', e)
+                            setFacingMode('user')
+                            // setScan(false)
+                          }}
                       />
                     ) :
                     <Image
@@ -115,7 +144,7 @@ const FaceId = () => {
                       width={100}
                       height={100}
                       alt="Scan"
-                      className='w-full h-full my-10'
+                      className='w-full h-full'
                   />
                    } 
                 </>
@@ -138,15 +167,21 @@ const FaceId = () => {
               {!scan ? 'Scan' : 'Capture Image'}
             </div> )
           :
-          <div onClick={registerFace} className='flex items-center justify-center w-full gap-2 p-4 pl-5 pr-6 mt-12 text-sm font-bold text-white rounded-md cursor-pointer bg-primary'>
-            Proceed
+          <div className="flex gap-2">
+            <div onClick={registerFace} className='flex items-center justify-center w-full gap-2 p-4 pl-5 pr-6 mt-12 text-sm font-bold text-white rounded-md cursor-pointer bg-primary'>
+              Proceed
+            </div>
+            <div onClick={() => setImgSrc('')} className='flex items-center justify-center w-full gap-2 p-4 pl-5 pr-6 mt-12 text-sm font-semibold bg-white border rounded-md cursor-pointer text-primary border-primary'>
+              Retake
+            </div>
           </div>
+          
           }
 
         </>
         {/* <input ref={imgRef} type="file" name="image" accept="image/*" capture="environment" /> */}
       </form>
-
+      <p className='mt-3 text-sm text-center'>Already have an account? <Link href='/' className='text-primary'>Sign In</Link></p>
     </div>
   )
 }

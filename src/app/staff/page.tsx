@@ -106,8 +106,15 @@ const StaffHome = () => {
   const reset = () => {
     setImgSrc('')
   }
+  const changeCamera = () => {
+    console.log('change camera')
+    if (facingMode === 'user') {
+      setFacingMode('environment')
+    } else {
+      setFacingMode('user')
+    }
+  }
 
-  console.log(verifyFaceMutation.data)
   return (
     <>
    {!bioOpen ? 
@@ -139,6 +146,9 @@ const StaffHome = () => {
               <option value="400">500</option>
               <option value="400">600</option>
             </select>
+          </div>
+          <div onClick={changeCamera} className='flex items-center justify-center p-2 text-xs font-semibold text-white cursor-pointer bg-primary'>
+            Switch Camera
           </div>
           <div className="flex items-center justify-center py-10 border-2 border-dashed rounded-md h-72 md:h-96 border-primary">
             {/* <Image src={ScanImage} alt='Scan' className='w-full h-full' /> */}

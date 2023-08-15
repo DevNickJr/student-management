@@ -21,7 +21,7 @@ export default function AuthHOC(
 
     if (session.status === "loading") {
       return (
-        <div className='w-screen h-screen flex justify-center items-center'>
+        <div className='flex items-center justify-center w-screen h-screen'>
           <Blocks
             visible={true}
             height="80"
@@ -33,6 +33,7 @@ export default function AuthHOC(
         </div>
       );
     }
+    
 
     if (!session.data) {
       signIn()

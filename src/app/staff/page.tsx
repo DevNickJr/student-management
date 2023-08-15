@@ -130,7 +130,7 @@ const StaffHome = () => {
           </h3>
           { /* select level */ }
           <div className="flex items-center gap-2 mb-4 text-sm">
-            <p className='text-sm'>Select Session: </p>
+            <p className='text-sm'>Select Level: </p>
             <select onChange={(e) => setLevel(e.target.value)} className='min-w-[100px] border border-gray-300 rounded-md w-fit text-sm'>
               <option value="100">100</option>
               <option value="200">200</option>

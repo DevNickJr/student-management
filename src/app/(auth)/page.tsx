@@ -27,7 +27,6 @@ const { mutate } = usePost<IUserLogin, any>(
   {
     onSuccess: () => {
       console.log({ active })
-        // queryClient.invalidateQueries('user')
         toast.success("Logged in Successfully")
         if (active === 'student') {
           return router.push('/dashboard')

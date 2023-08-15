@@ -43,7 +43,8 @@ export interface IProfile {
     last_name: string        
     middle_name: string
     level: string      
-    matric_no: string 
+    matric_no: string
+    option: string 
   }
 
 export interface IUser extends IUserRegister {

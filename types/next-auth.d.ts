@@ -23,6 +23,7 @@ declare module "next-auth" {
         matric_no: string,
         is_verified: boolean,
         is_staff: boolean,
+        option: string
       }
     }
   }
@@ -46,6 +47,7 @@ declare module "next-auth" {
         matric_no: string,
         is_verified: boolean,
         is_staff: boolean,
+        option: string
       }
   }
 }

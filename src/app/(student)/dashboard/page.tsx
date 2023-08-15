@@ -12,10 +12,16 @@ import { RiGraduationCapFill } from 'react-icons/ri'
 import Link from 'next/link'
 import LevelImg from "@/assets/level.svg"
 import Image from 'next/image'
+import { apiGetUser } from '@/services/AuthService'
+import { IProfile } from '@/interfaces'
+import useFetch from '@/hooks/useFetch'
 
 
 const StudentHome = () => {
   const { data } = useSession()
+  
+  const { data: profile, error, isLoading, isFetching, remove, refetch, fetchStatus } = useFetch<IProfile>({api: apiGetUser, requireAuth: true, key: ['user', 'profile'] })
+  console.log("datassssss", data)
 
   return (
     <div className='relative p-4 overflow-y-auto md:p-6'>
@@ -26,7 +32,7 @@ const StudentHome = () => {
       </div> */}
       <div className="flex flex-col justify-between gap-3 mb-12 sm:flex-row sm:items-center sm:gap-4">
         <div className="flex flex-col gap-2">
-          <h1 className='text-2xl font-bold'>Welcome Back, {data?.user?.userDetails?.first_name}</h1>
+          <h1 className='text-2xl font-bold'>Welcome Back, {profile?.first_name}</h1>
           <p className='text-xs md:text-sm'>You can easily register your courses on Eduverse</p>
         </div>
         <Link href={'/courses/register'} className='flex items-center gap-2 p-2 pr-3 text-xs text-white bg-primary md:text-sm w-fit'>
@@ -46,7 +52,7 @@ const StudentHome = () => {
             </div>
             <div className="flex flex-col gap-2">
              <div className='font-medium'>Full Names</div>
-             <div className='text-[11px] text-black/60'>{data?.user?.userDetails?.last_name} {data?.user?.userDetails?.first_name} {data?.user?.userDetails?.middle_name}</div>
+             <div className='text-[11px] text-black/60'>{profile?.last_name} {profile?.first_name} {profile?.middle_name}</div>
             </div>
           </div>
           <div className='flex items-center gap-2 text-xs'>
@@ -56,7 +62,7 @@ const StudentHome = () => {
             </div>
             <div className="flex flex-col gap-2">
              <div className='font-medium'>Current Level</div>
-             <div className='text-[11px] text-black/60'>{data?.user?.userDetails?.level}</div>
+             <div className='text-[11px] text-black/60'>{profile?.level}</div>
             </div>
           </div>
           <div className='flex items-center gap-2 text-xs'>
@@ -65,7 +71,7 @@ const StudentHome = () => {
             </div>
             <div className="flex flex-col gap-2">
              <div className='font-medium'>Matric Number</div>
-             <div className='text-[11px] text-black/60'>{data?.user?.userDetails?.matric_no}</div>
+             <div className='text-[11px] text-black/60'>{profile?.matric_no}</div>
             </div>
           </div>
           <div className='flex items-center gap-2 text-xs'>
@@ -92,7 +98,7 @@ const StudentHome = () => {
             </div>
             <div className="flex flex-col gap-2">
              <div className='font-medium'>Option</div>
-             <div className='text-[11px] text-black/60'>ECE</div>
+             <div className='text-[11px] text-black/60'>{profile?.option || "N/A"}</div>
             </div>
           </div>
           <div className='flex items-center gap-2 text-xs'>
@@ -101,7 +107,7 @@ const StudentHome = () => {
             </div>
             <div className="flex flex-col gap-2">
              <div className='font-medium'>Faculty</div>
-             <div className='text-[11px] text-black/60'>SSCE</div>
+             <div className='text-[11px] text-black/60'>{'SESET'}</div>
             </div>
           </div>
           <div className='flex items-center gap-2 text-xs'>
@@ -110,7 +116,7 @@ const StudentHome = () => {
             </div>
             <div className="flex flex-col gap-2">
              <div className='font-medium'>Session</div>
-             <div className='text-[11px] text-black/60'>2020/2021</div>
+             <div className='text-[11px] text-black/60'>{"2021/2022"}</div>
             </div>
           </div>
 

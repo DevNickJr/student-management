@@ -36,6 +36,7 @@ const StudentProfile = () => {
     return { ...state, [action.type]: action.payload }
 }, initialState)
   const { data: profile, error, isLoading, isFetching, remove, refetch, fetchStatus } = useFetch<IProfile>({api: apiGetUser, requireAuth: true, key: ['user', 'profile'] })
+  
   const updateProfileMutation = usePost<IProfile, IProfile>(apiUpdateUser, { 
     requireAuth: true,
     onSuccess: (data) => {

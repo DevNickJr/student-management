@@ -11,9 +11,10 @@ interface IProps<T> {
     onSuccess?: (a: any) => void
     requireAuth?: boolean
     select?: (a: any) => any
+    enabled?: boolean
 }
 
-const useFetch = <T,>({ api, param, key, onSuccess, requireAuth, select, ...rest }: IProps<T>) => {
+const useFetch = <T,>({ api, param, key, onSuccess, requireAuth, select, enabled=true, ...rest }: IProps<T>) => {
   const { data: session } = useSession()
 
 
@@ -21,6 +22,7 @@ const useFetch = <T,>({ api, param, key, onSuccess, requireAuth, select, ...rest
         queryKey: [...key],
         queryFn: () => requireAuth ? api(session?.user?.token.access, param) : api(param),
         select: select || ((d: any) => d?.data?.data),
+        enabled: enabled,
         ...rest
     })
 

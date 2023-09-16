@@ -62,6 +62,12 @@ export interface IPassword {
     confirm_password: string
   }
   
+  
+ export interface ICourse {
+    session: string
+    semester: string
+    level: string
+  }
 
 export interface IReducerAction<T> {
     type: T;

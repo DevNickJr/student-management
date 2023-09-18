@@ -153,7 +153,7 @@ const ConfirmCourse = ({ details }: IProps) => {
               <h1 className='text-2xl font-semibold'>
                 Courses Registered succesfully
               </h1>
-              <p className='text-xs'>Hi Jonathan<br />You have successfully created your courses</p>
+              <p className='text-xs'>Hi {data?.first_name}<br />You have successfully created your courses</p>
             </div>
             <Link href={"/courses"} className='flex items-center justify-center w-full gap-2 p-3 pl-5 pr-6 text-sm text-white rounded-sm bg-primary'>
                   Continue

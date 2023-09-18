@@ -69,6 +69,14 @@ export interface IPassword {
     level: string
   }
 
+  export interface IAdminCourse {
+    title: string
+    code: string
+    level: string
+    semester: string
+    unit: string
+  }
+
 export interface IReducerAction<T> {
     type: T;
     payload?: string | { [key: string]: string };

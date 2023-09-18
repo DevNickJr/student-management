@@ -212,7 +212,7 @@ const ConfirmCourse = ({ details }: IProps) => {
                     Department:
                   </div>
                   <div>
-                    {data?.department || "N/A"}
+                    {data?.department || "EEE"}
                   </div>
               </div>
               <div className='flex items-center gap-4 p-2'>
@@ -238,7 +238,7 @@ const ConfirmCourse = ({ details }: IProps) => {
                     Faculty:
                   </div>
                   <div>
-                    {data?.faculty || "N/A"}
+                    {data?.faculty || "SESET"}
                   </div>
               </div>
             </div>

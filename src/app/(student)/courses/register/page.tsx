@@ -45,11 +45,11 @@ const RegisterCourse = () => {
                 <label htmlFor="name">Enter Session</label>
                 <select  value={details?.session} onChange={(e) => dispatch({ type: "session", payload: e.target.value})} name="session" id="session" className='p-3 text-sm border rounded-md text-black/70'>
                   <option value="">Select Current Session</option>
-                  <option value="2020">2020/2021</option>
-                  <option value="2020">2020/2021</option>
-                  <option value="2020">2021/2022</option>
-                  <option value="2020">2022/2023</option>
-                  <option value="2020">2023/2024</option>
+                  <option value="2020/2021">2020/2021</option>
+                  <option value="2021/2022">2020/2021</option>
+                  <option value="2022/2023">2021/2022</option>
+                  <option value="2023/2024">2022/2023</option>
+                  <option value="2024/2025">2023/2024</option>
                 </select>
               </div>
               <div className='flex flex-col w-full gap-2 text-xs'>

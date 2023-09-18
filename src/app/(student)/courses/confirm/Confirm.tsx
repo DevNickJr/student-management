@@ -1,5 +1,5 @@
 'use client'
-import React from 'react'
+import React, { useState } from 'react'
 import { MdAdd } from 'react-icons/md'
 import { IProfile, ITableColumn } from '@/interfaces'
 import { apiGetUser } from '@/services/AuthService'
@@ -22,6 +22,14 @@ interface IProps {
 
 const ConfirmCourse = ({ details }: IProps) => {
   const { data, error, isLoading, isFetching, fetchStatus } = useFetch<IProfile>({api: apiGetUser, requireAuth: true, key: ['user', 'profile'] })
+
+// console.log({
+//   data
+// })
+  const [totalCourses, setTotalCourses] = useState(0)
+  const [totalUnits, setTotalUnits] = useState(0)
+  const [courses, setCourses] = React.useState<{ id: string, register: boolean, unit: number }[]>([])
+  
   const router = useRouter()
   const [modalOpen, setModalOpen] = React.useState(false)
 
@@ -43,16 +51,23 @@ const ConfirmCourse = ({ details }: IProps) => {
     }
   )
 
-  const [courses, setCourses] = React.useState<{ id: string, register: boolean }[]>([])
 
   const handleSelect = (value: any) => {
+    console.log({value})
     setCourses(courses => courses.map((course) => {
       if (course.id != value.id) {
         return course
       }
+      if (course?.register) {
+        setTotalCourses(prev => prev-1)
+        setTotalUnits(prev => prev - course.unit)
+      } else {
+        setTotalUnits(prev => prev + course.unit)
+        setTotalCourses(prev => prev+1)
+      }
       return {
         ...course,
-        register: !course.register
+        register: !course?.register
       }
     }))
   }
@@ -97,7 +112,7 @@ const ConfirmCourse = ({ details }: IProps) => {
       custom: (value, meta) => {
         return (
           <>
-          <input onClick={() => handleSelect(meta)} checked={meta?.register} type="checkbox" className='' name="" id="" />
+          <input onClick={() => handleSelect(meta)} checked={meta?.register} type="checkbox" className='cursor-pointer' name="" id="" />
           </>
         )
       }
@@ -161,7 +176,7 @@ const ConfirmCourse = ({ details }: IProps) => {
                       Full Name:
                   </div>
                   <div>
-                      {data?.user?.last_name} {data?.user?.first_name} {data?.user?.middle_name}
+                      {data?.last_name} {data?.first_name} {data?.middle_name}
                   </div>
               </div>
               <div className='flex items-center gap-4 p-2'>
@@ -169,7 +184,7 @@ const ConfirmCourse = ({ details }: IProps) => {
                       Level:
                   </div>
                   <div>
-                    {data?.user?.level} Level
+                    {data?.level} Level
                   </div>
               </div>
             </div>
@@ -179,7 +194,7 @@ const ConfirmCourse = ({ details }: IProps) => {
                     Matric Number:
                   </div>
                   <div>
-                    {data?.user?.matric_no}
+                    {data?.matric_no}
                   </div>
               </div>
               <div className='flex items-center gap-4 p-2'>
@@ -197,7 +212,7 @@ const ConfirmCourse = ({ details }: IProps) => {
                     Department:
                   </div>
                   <div>
-                    {data?.user?.department || "N/A"}
+                    {data?.department || "N/A"}
                   </div>
               </div>
               <div className='flex items-center gap-4 p-2'>
@@ -205,7 +220,7 @@ const ConfirmCourse = ({ details }: IProps) => {
                       Session:
                   </div>
                   <div>
-                    {data?.user?.session || "N/A"}
+                    {details?.session || data?.session || "N/A"}
                   </div>
               </div>
             </div>
@@ -215,7 +230,7 @@ const ConfirmCourse = ({ details }: IProps) => {
                     Option:
                   </div>
                   <div>
-                    {data?.user?.option || 'N/A'}
+                    {data?.option || 'N/A'}
                   </div>
               </div>
               <div className='flex items-center gap-4 p-2'>
@@ -223,14 +238,32 @@ const ConfirmCourse = ({ details }: IProps) => {
                     Faculty:
                   </div>
                   <div>
-                    {data?.user?.faculty || "N/A"}
+                    {data?.faculty || "N/A"}
+                  </div>
+              </div>
+            </div>
+            <div className={`grid md:grid-cols-2 text-xs w-full border rounded-sm border-[#A7E1EA] bg-[#ECF5FF]`}>
+              <div className={`flex items-center gap-4 p-2 py-3 border-r border-[#A7E1EA]`}>
+                  <div>
+                    Minimum Units:
+                  </div>
+                  <div>
+                    {data?.minimum_units || '16'}
+                  </div>
+              </div>
+              <div className='flex items-center gap-4 p-2'>
+                  <div>
+                    Maximum Units:
+                  </div>
+                  <div>
+                    {data?.maximum_units || "27"}
                   </div>
               </div>
             </div>
           </div>
         </div>
         <div>
-          <Table total_units={filteredCourses?.total_units || 0} total_courses={filteredCourses?.total_courses || 0} data={courses || []} columns={columns} />
+          <Table total_units={totalUnits || 0} total_courses={totalCourses || 0} data={courses || []} columns={columns} />
           <div className='flex justify-end'>
             <button onClick={handleRegister} type='submit' className='flex items-center justify-center gap-2 p-2 pl-5 pr-6 text-sm text-white bg-primary'>
               Register Courses

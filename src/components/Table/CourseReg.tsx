@@ -76,7 +76,7 @@ const Table = <T extends any>({ data, columns, className, total_courses, total_u
               <tr className="bg-[#1B5390] rounded-t-lg"> 
                 <th colSpan={8} className="border-none rounded-t-lg">
                   <div className="flex justify-between items-center gap-4 md:gap-8 px-4 py-3 bg-[#1B5390] text-white rounded-t-lg">
-                    <span>Registered Courses</span>
+                    <span>All Courses</span>
                     <div className="flex items-center gap-4">
                       <span>Total Courses: {total_courses}</span>
                       <span>Total Units: {total_units}</span>
